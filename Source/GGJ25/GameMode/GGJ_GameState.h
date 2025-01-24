@@ -22,6 +22,8 @@ public:
 
     AGGJ_GameState();
 
+    virtual void BeginPlay() override;
+
 protected:
 
     TObjectPtr<UGGJ_GridComponent> GridComponent = nullptr;

@@ -45,7 +45,7 @@ public:
 
     TArray<TArray<FTile>> Tiles;
 
-    UPROPERTY()
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     TObjectPtr<UStaticMeshComponent> StaticMesh = nullptr;
 
 public:
