@@ -14,7 +14,7 @@ FString FTile::ToString() const
 AGGJ_Grid::AGGJ_Grid()
     : Super()
 {
-    constexpr int32 GridSize = 3;
+    constexpr int32 GridSize = 6;
 
     constexpr int32 GridTileSize = 50;
     constexpr int32 GridTileCenterLocationOffset = 0;
@@ -22,6 +22,9 @@ AGGJ_Grid::AGGJ_Grid()
     Size = FVector2d(GridSize, GridSize);
     TileSize = FVector2D(GridTileSize, GridTileSize);
     TileCenterLocationOffset = FVector2D(GridTileCenterLocationOffset, GridTileCenterLocationOffset);
+
+    StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
+    StaticMesh->SetupAttachment(RootComponent);
 }
 
 void AGGJ_Grid::BeginPlay()

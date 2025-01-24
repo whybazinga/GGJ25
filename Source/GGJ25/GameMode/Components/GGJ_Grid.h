@@ -32,7 +32,7 @@ public:
 };
 
 
-UCLASS()
+UCLASS(Blueprintable, BlueprintType)
 class GGJ25_API AGGJ_Grid : public AActor
 {
     GENERATED_BODY()
@@ -44,6 +44,9 @@ public:
     FVector2d TileCenterLocationOffset;
 
     TArray<TArray<FTile>> Tiles;
+
+    UPROPERTY()
+    TObjectPtr<UStaticMeshComponent> StaticMesh = nullptr;
 
 public:
     AGGJ_Grid();
