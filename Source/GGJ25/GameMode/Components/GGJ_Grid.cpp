@@ -48,6 +48,9 @@ void AGGJ_Grid::BeginPlay()
             NewTile.TileSize = TileSize;
         }
     }
+
+    DebugDrawAxis(this);
+    DebugDraw(this);
 }
 
 FVector AGGJ_Grid::GetGridLocation() const

@@ -3,6 +3,8 @@
 
 #include "GGJ_GridComponent.h"
 
+#include "Kismet/GameplayStatics.h"
+
 
 UGGJ_GridComponent::UGGJ_GridComponent()
     : Super(FObjectInitializer::Get())
@@ -19,9 +21,6 @@ void UGGJ_GridComponent::BeginPlay()
 
 void UGGJ_GridComponent::GenerateGrid()
 {
-    Grid = GetWorld()->SpawnActor<AGGJ_Grid>(GridClass);
-
-    Grid->DebugDrawAxis(this);
-    Grid->DebugDraw(this);
+    Grid = Cast<AGGJ_Grid>(UGameplayStatics::GetActorOfClass(this, AGGJ_Grid::StaticClass()));
 }
 
