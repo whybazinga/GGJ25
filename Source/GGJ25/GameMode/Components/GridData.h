@@ -13,7 +13,11 @@ struct FTile
 public:
     FIntVector2 Coordinates;
 
+    FVector2d TileSize;
+
 public:
+    FVector GetExtent() const;
+    
     FString ToString() const;
 };
 
@@ -24,15 +28,22 @@ struct FGrid
     GENERATED_BODY()
 
 public:
-    int32 SizeX = 0;
-    int32 SizeY = 0;
+    FVector2d Size;
+
+    FVector2d TileSize;
+    FVector2d TileLocationOffset;
 
     TArray<TArray<FTile>> Tiles;
 
 public:
     FGrid() = default;
 
-    void Generate(int32 InSizeX, int32 InSizeY);
+    void Generate();
+
+    FTile GetTile(int32 X, int32 Y) const;
+    FVector GetTileWorldLocation(int32 X, int32 Y) const;
 
     void Print();
+
+    void DebugDraw(const UObject* WorldContext) const;
 };

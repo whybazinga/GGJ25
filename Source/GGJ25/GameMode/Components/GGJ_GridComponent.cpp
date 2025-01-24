@@ -4,7 +4,8 @@
 #include "GGJ_GridComponent.h"
 
 
-UGGJ_GridComponent::UGGJ_GridComponent() : Super(FObjectInitializer::Get())
+UGGJ_GridComponent::UGGJ_GridComponent()
+    : Super(FObjectInitializer::Get())
 {
 }
 
@@ -18,7 +19,12 @@ void UGGJ_GridComponent::BeginPlay()
 
 void UGGJ_GridComponent::GenerateGrid()
 {
-    Grid.Generate(3,3);
+    Grid.Size = FVector2d(3, 3);
+    Grid.TileSize = FVector2D(50, 50);
+    Grid.TileLocationOffset = FVector2D(-25, -25);
+    Grid.Generate();
+
     Grid.Print();
+    Grid.DebugDraw(this);
 }
 
