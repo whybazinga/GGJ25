@@ -36,7 +36,59 @@ FTile FGrid::GetTile(int32 X, int32 Y) const
 
 FVector FGrid::GetTileWorldLocation(const int32 X, const int32 Y) const
 {
-    return FVector(X * TileSize.X + TileLocationOffset.X, Y * TileSize.Y + TileLocationOffset.Y, 0.0f);
+    return FVector(X * TileSize.X + TileCenterLocationOffset.X, Y * TileSize.Y + TileCenterLocationOffset.Y, 0.0f);
+}
+
+FTile FGrid::GetTileNeighbor(const FTile& Source, const ETileNeighbour NeighbourType) const
+{
+    switch (NeighbourType)
+    {
+        case ETileNeighbour::TopLeft:
+            return GetTile(
+                Source.Coordinates.X - 1,
+                Source.Coordinates.Y - 1);
+
+        case ETileNeighbour::Top:
+            return GetTile(
+                Source.Coordinates.X,
+                Source.Coordinates.Y - 1);
+
+        case ETileNeighbour::TopRight:
+            return GetTile(
+                Source.Coordinates.X + 1,
+                Source.Coordinates.Y - 1);
+
+        case ETileNeighbour::Left:
+            return GetTile(
+                Source.Coordinates.X - 1,
+                Source.Coordinates.Y);
+
+        case ETileNeighbour::Right:
+            return GetTile(
+                Source.Coordinates.X + 1,
+                Source.Coordinates.Y);
+
+        case ETileNeighbour::BottomLeft:
+            return GetTile(
+                Source.Coordinates.X - 1,
+                Source.Coordinates.Y + 1);
+
+        case ETileNeighbour::Bottom:
+            return GetTile(
+                Source.Coordinates.X,
+                Source.Coordinates.Y + 1);
+
+        case ETileNeighbour::BottomRight:
+            return GetTile(
+                Source.Coordinates.X + 1,
+                Source.Coordinates.Y + 1);
+
+
+        default:
+            // you deserve it
+            checkNoEntry();
+            return {};
+    }
 }
 
 void FGrid::Print()
@@ -51,25 +103,46 @@ void FGrid::Print()
     }
 }
 
+void FGrid::DebugDrawAxis(const UObject* WorldContext) const
+{
+    // X axis
+    DrawDebugLine(
+        GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::ReturnNull),
+        FVector::ZeroVector,
+        FVector::ForwardVector * (Size.X + 1) * TileSize.X,
+        FColor::Red, false, 100);
+
+    // Y axis
+    DrawDebugLine(
+        GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::ReturnNull),
+        FVector::ZeroVector,
+        FVector::RightVector * (Size.Y + 1) * TileSize.Y,
+        FColor::Green, false, 100);
+}
+
 void FGrid::DebugDraw(const UObject* WorldContext) const
 {
     for (int32 Y = 0; Y < Tiles.Num(); Y++)
     {
         for (int32 X = 0; X < Tiles[Y].Num(); X++)
         {
-            UE_LOG(LogTemp, Log, TEXT("%s"), *GetTileWorldLocation(X, Y).ToString());
-            DrawDebugBox(
-                GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::ReturnNull),
-                GetTileWorldLocation(X, Y),
-                GetTile(X, Y).GetExtent(),
-                FColor::Red, false, 100);
-
-            DrawDebugSphere(
-                GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::ReturnNull),
-                GetTileWorldLocation(X, Y),
-                5,
-                10,
-                FColor::Black, false, 100);
+            DebugDrawTile(WorldContext, GetTile(X, Y));
         }
     }
+}
+
+void FGrid::DebugDrawTile(const UObject* WorldContext, const FTile& InTile) const
+{
+    DrawDebugBox(
+                GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::ReturnNull),
+                GetTileWorldLocation(InTile.Coordinates.X, InTile.Coordinates.Y),
+                GetTile(InTile.Coordinates.X, InTile.Coordinates.Y).GetExtent(),
+                FColor::Red, false, 100);
+
+    DrawDebugSphere(
+        GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::ReturnNull),
+        GetTileWorldLocation(InTile.Coordinates.X, InTile.Coordinates.Y),
+        5,
+        10,
+        FColor::Black, false, 100);
 }
