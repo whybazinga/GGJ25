@@ -11,7 +11,7 @@
 /**
  *
  */
-UCLASS()
+UCLASS(Blueprintable, BlueprintType)
 class GGJ25_API AGGJ_PlayerController : public APlayerController
 {
     GENERATED_BODY()

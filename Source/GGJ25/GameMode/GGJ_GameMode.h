@@ -11,7 +11,7 @@
 /**
  *
  */
-UCLASS()
+UCLASS(Blueprintable, BlueprintType)
 class GGJ25_API AGGJ_GameMode : public AGameMode
 {
     GENERATED_BODY()
