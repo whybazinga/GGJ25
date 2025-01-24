@@ -19,7 +19,7 @@ void UGGJ_GridComponent::BeginPlay()
 
 void UGGJ_GridComponent::GenerateGrid()
 {
-    Grid = GetWorld()->SpawnActor<AGGJ_Grid>();
+    Grid = GetWorld()->SpawnActor<AGGJ_Grid>(GridClass);
 
     Grid->DebugDrawAxis(this);
     Grid->DebugDraw(this);
