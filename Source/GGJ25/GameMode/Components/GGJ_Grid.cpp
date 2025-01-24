@@ -1,4 +1,4 @@
-#include "GridData.h"
+#include "GGJ_Grid.h"
 
 
 FVector FTile::GetExtent() const
@@ -11,8 +11,23 @@ FString FTile::ToString() const
     return FString::Printf(TEXT("(Loc: [%s]: Size: [%s])"), *Coordinates.ToString(), *TileSize.ToString());
 }
 
-void FGrid::Generate()
+AGGJ_Grid::AGGJ_Grid()
+    : Super()
 {
+    constexpr int32 GridSize = 3;
+
+    constexpr int32 GridTileSize = 50;
+    constexpr int32 GridTileCenterLocationOffset = 0;
+
+    Size = FVector2d(GridSize, GridSize);
+    TileSize = FVector2D(GridTileSize, GridTileSize);
+    TileCenterLocationOffset = FVector2D(GridTileCenterLocationOffset, GridTileCenterLocationOffset);
+}
+
+void AGGJ_Grid::BeginPlay()
+{
+    Super::BeginPlay();
+
     for (int32 Y = 0; Y < Size.Y; Y++)
     {
         TArray<FTile>& NewRow = Tiles.Emplace_GetRef();
@@ -26,7 +41,7 @@ void FGrid::Generate()
     }
 }
 
-TOptional<FTile> FGrid::GetTileOptional(const int32 X, const int32 Y) const
+TOptional<FTile> AGGJ_Grid::GetTileOptional(const int32 X, const int32 Y) const
 {
     if (Tiles.IsValidIndex(Y) && Tiles[Y].IsValidIndex(X))
     {
@@ -36,17 +51,19 @@ TOptional<FTile> FGrid::GetTileOptional(const int32 X, const int32 Y) const
     return NullOpt;
 }
 
-FTile FGrid::GetTileChecked(const int32 X, const int32 Y) const
+FTile AGGJ_Grid::GetTileChecked(const int32 X, const int32 Y) const
 {
     return GetTileOptional(X, Y).GetValue();
 }
 
-FVector FGrid::GetTileWorldLocation(const int32 X, const int32 Y) const
+FVector AGGJ_Grid::GetTileWorldLocation(const int32 X, const int32 Y) const
 {
-    return FVector(X * TileSize.X + TileCenterLocationOffset.X, Y * TileSize.Y + TileCenterLocationOffset.Y, 0.0f);
+    return FVector(
+        X * TileSize.X + TileCenterLocationOffset.X,
+        Y * TileSize.Y + TileCenterLocationOffset.Y, 0.0f);
 }
 
-TOptional<FTile> FGrid::GetTileNeighbor(const FTile& Source, const ETileNeighbour NeighbourType) const
+TOptional<FTile> AGGJ_Grid::GetTileNeighbor(const FTile& Source, const ETileNeighbour NeighbourType) const
 {
     switch (NeighbourType)
     {
@@ -98,7 +115,7 @@ TOptional<FTile> FGrid::GetTileNeighbor(const FTile& Source, const ETileNeighbou
     }
 }
 
-void FGrid::Print()
+void AGGJ_Grid::Print()
 {
     UE_LOG(LogTemp, Log, TEXT("Grid:"));
     for (int32 Y = 0; Y < Tiles.Num(); Y++)
@@ -110,7 +127,7 @@ void FGrid::Print()
     }
 }
 
-void FGrid::DebugDrawAxis(const UObject* WorldContext) const
+void AGGJ_Grid::DebugDrawAxis(const UObject* WorldContext) const
 {
     // X axis
     DrawDebugLine(
@@ -127,7 +144,7 @@ void FGrid::DebugDrawAxis(const UObject* WorldContext) const
         FColor::Green, false, 100);
 }
 
-void FGrid::DebugDraw(const UObject* WorldContext) const
+void AGGJ_Grid::DebugDraw(const UObject* WorldContext) const
 {
     for (int32 Y = 0; Y < Tiles.Num(); Y++)
     {
@@ -138,7 +155,7 @@ void FGrid::DebugDraw(const UObject* WorldContext) const
     }
 }
 
-void FGrid::DebugDrawTile(const UObject* WorldContext, const FTile& InTile) const
+void AGGJ_Grid::DebugDrawTile(const UObject* WorldContext, const FTile& InTile) const
 {
     DrawDebugBox(
                 GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::ReturnNull),

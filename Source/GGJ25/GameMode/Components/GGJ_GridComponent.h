@@ -6,7 +6,7 @@
 
 #include "Components/ActorComponent.h"
 
-#include "GridData.h"
+#include "GGJ_Grid.h"
 
 #include "GGJ_GridComponent.generated.h"
 
@@ -27,5 +27,6 @@ protected:
 
 protected:
 
-    FGrid Grid;
+    UPROPERTY()
+    TObjectPtr<AGGJ_Grid> Grid = nullptr;
 };

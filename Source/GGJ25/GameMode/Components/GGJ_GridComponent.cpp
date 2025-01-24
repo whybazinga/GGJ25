@@ -7,10 +7,6 @@
 UGGJ_GridComponent::UGGJ_GridComponent()
     : Super(FObjectInitializer::Get())
 {
-    Grid = FGrid();
-    Grid.Size = FVector2d(3, 3);
-    Grid.TileSize = FVector2D(50, 50);
-    Grid.TileCenterLocationOffset = FVector2D(0, 0);
 }
 
 
@@ -23,10 +19,10 @@ void UGGJ_GridComponent::BeginPlay()
 
 void UGGJ_GridComponent::GenerateGrid()
 {
-    Grid.Generate();
+    Grid = GetWorld()->SpawnActor<AGGJ_Grid>();
 
-    Grid.Print();
-    Grid.DebugDrawAxis(this);
-    Grid.DebugDraw(this);
+    Grid->Print();
+    Grid->DebugDrawAxis(this);
+    Grid->DebugDraw(this);
 }
 

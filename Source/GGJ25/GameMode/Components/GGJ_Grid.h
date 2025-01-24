@@ -2,7 +2,7 @@
 
 #include <CoreMinimal.h>
 
-#include "GridData.generated.h"
+#include "GGJ_Grid.generated.h"
 
 UENUM()
 enum class ETileNeighbour : uint8
@@ -32,8 +32,8 @@ public:
 };
 
 
-USTRUCT()
-struct FGrid
+UCLASS()
+class GGJ25_API AGGJ_Grid : public AActor
 {
     GENERATED_BODY()
 
@@ -46,9 +46,9 @@ public:
     TArray<TArray<FTile>> Tiles;
 
 public:
-    FGrid() = default;
+    AGGJ_Grid();
 
-    void Generate();
+    virtual void BeginPlay() override;
 
     TOptional<FTile> GetTileOptional(int32 X, int32 Y) const;
     FTile GetTileChecked(int32 X, int32 Y) const;
