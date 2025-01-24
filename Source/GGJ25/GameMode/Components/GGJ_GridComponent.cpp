@@ -21,7 +21,6 @@ void UGGJ_GridComponent::GenerateGrid()
 {
     Grid = GetWorld()->SpawnActor<AGGJ_Grid>();
 
-    Grid->Print();
     Grid->DebugDrawAxis(this);
     Grid->DebugDraw(this);
 }
