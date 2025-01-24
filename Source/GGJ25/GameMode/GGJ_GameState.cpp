@@ -6,5 +6,11 @@
 
 AGGJ_GameState::AGGJ_GameState() : Super()
 {
-    GridComponent = CreateDefaultSubobject<UGGJ_GridComponent>("GridComponent");
+}
+
+void AGGJ_GameState::BeginPlay()
+{
+    Super::BeginPlay();
+
+    GridComponent = GetComponentByClass<UGGJ_GridComponent>();
 }

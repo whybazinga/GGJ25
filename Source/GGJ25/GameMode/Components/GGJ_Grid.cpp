@@ -14,14 +14,23 @@ FString FTile::ToString() const
 AGGJ_Grid::AGGJ_Grid()
     : Super()
 {
-    constexpr int32 GridSize = 3;
+    constexpr int32 GridSize = 6;
 
     constexpr int32 GridTileSize = 50;
     constexpr int32 GridTileCenterLocationOffset = 0;
 
     Size = FVector2d(GridSize, GridSize);
+
     TileSize = FVector2D(GridTileSize, GridTileSize);
     TileCenterLocationOffset = FVector2D(GridTileCenterLocationOffset, GridTileCenterLocationOffset);
+
+    GridLocationOffset = FVector(
+        -Size.X * TileSize.X / 2 + (TileSize.X / 2),
+        -Size.Y * TileSize.Y / 2 + (TileSize.Y / 2),
+        25);
+
+    StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
+    StaticMesh->SetupAttachment(RootComponent);
 }
 
 void AGGJ_Grid::BeginPlay()
@@ -39,6 +48,14 @@ void AGGJ_Grid::BeginPlay()
             NewTile.TileSize = TileSize;
         }
     }
+
+    DebugDrawAxis(this);
+    DebugDraw(this);
+}
+
+FVector AGGJ_Grid::GetGridLocation() const
+{
+    return GetActorLocation() + GridLocationOffset;
 }
 
 TOptional<FTile> AGGJ_Grid::GetTileOptional(const int32 X, const int32 Y) const
@@ -58,9 +75,10 @@ FTile AGGJ_Grid::GetTileChecked(const int32 X, const int32 Y) const
 
 FVector AGGJ_Grid::GetTileWorldLocation(const int32 X, const int32 Y) const
 {
-    return FVector(
+    return GetGridLocation() + FVector(
         X * TileSize.X + TileCenterLocationOffset.X,
-        Y * TileSize.Y + TileCenterLocationOffset.Y, 0.0f);
+        Y * TileSize.Y + TileCenterLocationOffset.Y,
+        0.0f);
 }
 
 TOptional<FTile> AGGJ_Grid::GetTileNeighbor(const FTile& Source, const ETileNeighbour NeighbourType) const
@@ -132,15 +150,15 @@ void AGGJ_Grid::DebugDrawAxis(const UObject* WorldContext) const
     // X axis
     DrawDebugLine(
         GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::ReturnNull),
-        FVector::ZeroVector,
-        FVector::ForwardVector * (Size.X + 1) * TileSize.X,
+        GetGridLocation(),
+        GetGridLocation() + FVector::ForwardVector * (Size.X + 1) * TileSize.X,
         FColor::Red, false, 100);
 
     // Y axis
     DrawDebugLine(
         GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::ReturnNull),
-        FVector::ZeroVector,
-        FVector::RightVector * (Size.Y + 1) * TileSize.Y,
+        GetGridLocation(),
+        GetGridLocation() + FVector::RightVector * (Size.Y + 1) * TileSize.Y,
         FColor::Green, false, 100);
 }
 

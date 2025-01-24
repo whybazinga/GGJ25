@@ -13,7 +13,7 @@ class UGGJ_GridComponent;
 /**
  *
  */
-UCLASS()
+UCLASS(Blueprintable, BlueprintType)
 class GGJ25_API AGGJ_GameState : public AGameState
 {
     GENERATED_BODY()
@@ -21,6 +21,8 @@ class GGJ25_API AGGJ_GameState : public AGameState
 public:
 
     AGGJ_GameState();
+
+    virtual void BeginPlay() override;
 
 protected:
 

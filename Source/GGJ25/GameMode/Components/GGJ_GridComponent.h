@@ -27,6 +27,9 @@ protected:
 
 protected:
 
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    TSubclassOf<AGGJ_Grid> GridClass = nullptr;
+
     UPROPERTY()
     TObjectPtr<AGGJ_Grid> Grid = nullptr;
 };
