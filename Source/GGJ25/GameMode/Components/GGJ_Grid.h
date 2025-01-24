@@ -40,6 +40,8 @@ class GGJ25_API AGGJ_Grid : public AActor
 public:
     FVector2d Size;
 
+    FVector GridLocationOffset;
+
     FVector2d TileSize;
     FVector2d TileCenterLocationOffset;
 
@@ -52,6 +54,8 @@ public:
     AGGJ_Grid();
 
     virtual void BeginPlay() override;
+
+    FVector GetGridLocation() const;
 
     TOptional<FTile> GetTileOptional(int32 X, int32 Y) const;
     FTile GetTileChecked(int32 X, int32 Y) const;
