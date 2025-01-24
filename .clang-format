@@ -1,0 +1,95 @@
+Language: Cpp
+BasedOnStyle: LLVM
+AlignAfterOpenBracket: Align   
+AlignTrailingComments: true
+AlignEscapedNewlines: Right
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortLambdasOnASingleLine: All
+AccessModifierOffset: -4
+KeepEmptyLinesAtTheStartOfBlocks: false
+IndentWidth:     4
+IndentWrappedFunctionNames: false
+IndentCaseLabels: true
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex:           'CoreMinimal.h'
+    Priority:        0
+  - Regex:           '.*\.generated\.h'
+    Priority:        100
+  - Regex:           '<.*>'
+    Priority:        97
+  - Regex:           '".*(/).*"'
+    Priority:        98
+  - Regex:           '".*"'
+    Priority:        99
+NamespaceIndentation: All
+# Braces/Parens (Allman style)
+BreakBeforeBraces : Custom
+BraceWrapping:
+  AfterCaseLabel:  true
+  AfterClass:      true
+  AfterControlStatement: true
+  AfterEnum:       true
+  AfterFunction:   true
+  AfterNamespace:  true
+  AfterObjCDeclaration: true
+  AfterStruct:     true
+  AfterUnion:      true
+  AfterExternBlock: true
+  BeforeCatch:     true
+  BeforeElse:      true
+  BeforeLambdaBody: false
+  IndentBraces:    false
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+  SplitEmptyNamespace: true
+BreakConstructorInitializersBeforeComma: true
+BreakConstructorInitializers: BeforeComma
+BreakStringLiterals: false
+DerivePointerAlignment: false
+MaxEmptyLinesToKeep: 2
+PointerAlignment: Left
+SortIncludes:    true
+SortUsingDeclarations: true
+SpacesInAngles: false
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceBeforeParens: ControlStatements
+Standard:        c++17
+TabWidth:        4
+UseTab:          Never
+ColumnLimit:     0
+BreakBeforeTernaryOperators: true
+BreakBeforeBinaryOperators: true
+AlignOperands: DontAlign
+LambdaBodyIndentation: OuterScope
+SpaceAfterTemplateKeyword: false
+EmptyLineAfterAccessModifier: Always
+EmptyLineBeforeAccessModifier: Always
+StatementMacros: [
+'UPROPERTY', 'UFUNCTION', 'UCLASS', 'USTRUCT', 'UENUM', 'UINTERFACE', 'GENERATED_BODY',
+'DECLARE_DELEGATE', 'DECLARE_MULTICAST_DELEGATE', 'GET_STAT_RANGE',
+'DECLARE_TS_MULTICAST_DELEGATE', 'DECLARE_EVENT', 'DECLARE_DYNAMIC_DELEGATE', 'DECLARE_DYNAMIC_MULTICAST_DELEGATE', 'DECLARE_DELEGATE_RetVal',
+'DECLARE_DYNAMIC_DELEGATE_RetVal', 'DECLARE_DELEGATE_OneParam', 'DECLARE_MULTICAST_DELEGATE_OneParam', 'DECLARE_TS_MULTICAST_DELEGATE_OneParam',
+'DECLARE_EVENT_OneParam', 'DECLARE_DYNAMIC_DELEGATE_OneParam', 'DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam', 'DECLARE_DELEGATE_RetVal_OneParam',
+'DECLARE_DYNAMIC_DELEGATE_RetVal_OneParam', 'DECLARE_DELEGATE_TwoParams', 'DECLARE_MULTICAST_DELEGATE_TwoParams', 'DECLARE_TS_MULTICAST_DELEGATE_TwoParams',
+'DECLARE_EVENT_TwoParams', 'DECLARE_DYNAMIC_DELEGATE_TwoParams', 'DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams', 'DECLARE_DELEGATE_RetVal_TwoParams',
+'DECLARE_DYNAMIC_DELEGATE_RetVal_TwoParams', 'DECLARE_DELEGATE_ThreeParams', 'DECLARE_MULTICAST_DELEGATE_ThreeParams', 'DECLARE_TS_MULTICAST_DELEGATE_ThreeParams',
+'DECLARE_EVENT_ThreeParams', 'DECLARE_DYNAMIC_DELEGATE_ThreeParams', 'DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams', 'DECLARE_DELEGATE_RetVal_ThreeParams', 
+'DECLARE_DYNAMIC_DELEGATE_RetVal_ThreeParams', 'DECLARE_DELEGATE_FourParams', 'DECLARE_MULTICAST_DELEGATE_FourParams', 'DECLARE_TS_MULTICAST_DELEGATE_FourParams',
+'DECLARE_EVENT_FourParams', 'DECLARE_DYNAMIC_DELEGATE_FourParams', 'DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams', 'DECLARE_DELEGATE_RetVal_FourParams',
+'DECLARE_DYNAMIC_DELEGATE_RetVal_FourParams', 'DECLARE_DELEGATE_FiveParams', 'DECLARE_MULTICAST_DELEGATE_FiveParams', 'DECLARE_TS_MULTICAST_DELEGATE_FiveParams',
+'DECLARE_EVENT_FiveParams', 'DECLARE_DYNAMIC_DELEGATE_FiveParams', 'DECLARE_DYNAMIC_MULTICAST_DELEGATE_FiveParams', 'DECLARE_DELEGATE_RetVal_FiveParams', 
+'DECLARE_DYNAMIC_DELEGATE_RetVal_FiveParams', 'DECLARE_DELEGATE_SixParams', 'DECLARE_MULTICAST_DELEGATE_SixParams', 'DECLARE_TS_MULTICAST_DELEGATE_SixParams', 
+'DECLARE_EVENT_SixParams', 'DECLARE_DYNAMIC_DELEGATE_SixParams', 'DECLARE_DYNAMIC_MULTICAST_DELEGATE_SixParams', 'DECLARE_DELEGATE_RetVal_SixParams',
+'DECLARE_DYNAMIC_DELEGATE_RetVal_SixParams', 'DECLARE_DELEGATE_SevenParams', 'DECLARE_MULTICAST_DELEGATE_SevenParams', 'DECLARE_TS_MULTICAST_DELEGATE_SevenParams',
+'DECLARE_EVENT_SevenParams', 'DECLARE_DYNAMIC_DELEGATE_SevenParams', 'DECLARE_DYNAMIC_MULTICAST_DELEGATE_SevenParams', 'DECLARE_DELEGATE_RetVal_SevenParams', 
+'DECLARE_DYNAMIC_DELEGATE_RetVal_SevenParams', 'DECLARE_DELEGATE_EightParams', 'DECLARE_MULTICAST_DELEGATE_EightParams', 'DECLARE_TS_MULTICAST_DELEGATE_EightParams',
+'DECLARE_EVENT_EightParams', 'DECLARE_DYNAMIC_DELEGATE_EightParams', 'DECLARE_DYNAMIC_MULTICAST_DELEGATE_EightParams', 'DECLARE_DELEGATE_RetVal_EightParams',
+'DECLARE_DYNAMIC_DELEGATE_RetVal_EightParams', 'DECLARE_DELEGATE_NineParams', 'DECLARE_MULTICAST_DELEGATE_NineParams', 'DECLARE_TS_MULTICAST_DELEGATE_NineParams',
+'DECLARE_EVENT_NineParams', 'DECLARE_DYNAMIC_DELEGATE_NineParams', 'DECLARE_DYNAMIC_MULTICAST_DELEGATE_NineParams', 'DECLARE_DELEGATE_RetVal_NineParams',
+'DECLARE_DYNAMIC_DELEGATE_RetVal_NineParams', 'ADD_IF'
+ ]
+SpaceBeforeCpp11BracedList: true
+AlignArrayOfStructures: Left
+ReflowComments: true
