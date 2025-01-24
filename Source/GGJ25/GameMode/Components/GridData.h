@@ -50,10 +50,11 @@ public:
 
     void Generate();
 
-    FTile GetTile(int32 X, int32 Y) const;
+    TOptional<FTile> GetTileOptional(int32 X, int32 Y) const;
+    FTile GetTileChecked(int32 X, int32 Y) const;
     FVector GetTileWorldLocation(int32 X, int32 Y) const;
 
-    FTile GetTileNeighbor(const FTile& Source, ETileNeighbour NeighbourType) const;
+    TOptional<FTile> GetTileNeighbor(const FTile& Source, ETileNeighbour NeighbourType) const;
 
     void Print();
 
