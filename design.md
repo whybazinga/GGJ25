@@ -21,6 +21,7 @@ no-hp
 
 ## predefined movesets
 a type of move that can be done in different directions, similar to chess
+move is configured as a series of transitions
 
 #### movement
 move is preshown on the grid for all directions
