@@ -15,4 +15,7 @@ UCLASS()
 class GGJ25_API AGGJ_GameMode : public AGameMode
 {
     GENERATED_BODY()
+
+public:
+    AGGJ_GameMode();
 };
