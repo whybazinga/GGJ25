@@ -3,6 +3,7 @@
 
 #include "GGJ_GridComponent.h"
 
+#include "GGJ25/GeneralTypes.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -28,6 +29,37 @@ void UGGJ_GridComponent::GenerateGrid()
 {
     Grid = Cast<AGGJ_Grid>(UGameplayStatics::GetActorOfClass(this, AGGJ_Grid::StaticClass()));
     OnGridReady.Broadcast();
+}
+
+TOptional<FIntVector2> UGGJ_GridComponent::GetPlayerLocation(const EPlayer Player) const
+{
+    switch (Player)
+    {
+        case EPlayer::One:
+            return FirstPlayerLocation;
+        case EPlayer::Two:
+            return SecondPlayerLocation;
+
+        default:
+            checkNoEntry();
+            return NullOpt;
+    }
+}
+
+void UGGJ_GridComponent::SetPlayerLocation(const FIntVector2 NewLocation, const EPlayer Player)
+{
+    switch (Player)
+    {
+        case EPlayer::One:
+            FirstPlayerLocation = NewLocation;
+            return;
+        case EPlayer::Two:
+            SecondPlayerLocation = NewLocation;
+            return;
+
+        default:
+            checkNoEntry();
+    }
 }
 
 TPair<FVector, FVector> UGGJ_GridComponent::GetPlayersSpawnLocations() const
