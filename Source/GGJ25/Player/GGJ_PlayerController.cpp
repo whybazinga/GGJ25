@@ -3,8 +3,10 @@
 #include "GGJ_PlayerController.h"
 
 #include "GGJ25/GameMode/Components/GGJ_GridComponent.h"
+#include "GGJ25/GameMode/GGJ_GameMode.h"
 #include "GGJ25/GameMode/GGJ_GameState.h"
 #include "GGJ25/GeneralTypes.h"
+
 #include "PieceActor.h"
 
 
@@ -43,6 +45,8 @@ void AGGJ_PlayerController::SetupInputComponent()
 {
     Super::SetupInputComponent();
 
+    InputComponent->BindAction("RestartGame", IE_Pressed, this, &ThisClass::RestartGame);
+
     InputComponent->BindAction("ForwardFirst", IE_Pressed, this, &ThisClass::ForwardFirst);
     InputComponent->BindAction("BackwardFirst", IE_Pressed, this, &ThisClass::BackwardFirst);
     InputComponent->BindAction("LeftFirst", IE_Pressed, this, &ThisClass::LeftFirst);
@@ -52,6 +56,11 @@ void AGGJ_PlayerController::SetupInputComponent()
     InputComponent->BindAction("BackwardSecond", IE_Pressed, this, &ThisClass::BackwardSecond);
     InputComponent->BindAction("LeftSecond", IE_Pressed, this, &ThisClass::LeftSecond);
     InputComponent->BindAction("RightSecond", IE_Pressed, this, &ThisClass::RightSecond);
+}
+
+void AGGJ_PlayerController::RestartGame()
+{
+    Cast<AGGJ_GameMode>(GetWorld()->GetAuthGameMode())->Restart();
 }
 
 APieceActor* AGGJ_PlayerController::GetPlayerPawn(const EPlayer InPlayer) const

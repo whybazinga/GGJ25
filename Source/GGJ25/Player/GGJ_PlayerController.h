@@ -52,6 +52,8 @@ protected:
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
     virtual void SetupInputComponent() override;
 
+    void RestartGame();
+
     void ForwardFirst();
     void BackwardFirst();
     void LeftFirst();
