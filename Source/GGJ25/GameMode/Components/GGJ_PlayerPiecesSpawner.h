@@ -6,6 +6,8 @@
 
 #include "Components/ActorComponent.h"
 
+#include "GGJ_GridComponent.h"
+
 #include "GGJ_PlayerPiecesSpawner.generated.h"
 
 
@@ -25,6 +27,7 @@ public:
 protected:
 
     virtual void BeginPlay() override;
+    APieceActor* SpawnPlayer(EPlayer Player, const FIntVector2& PieceSpawnCoordinates) const;
 
     void OnGridReady();
 

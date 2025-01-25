@@ -17,7 +17,12 @@ class GGJ25_API APieceActor : public AActor
     GENERATED_BODY()
 
 public:
+
     APieceActor();
+
+    TOptional<FDirectedMove> GetDirectedMove(const TPair<TOptional<EInputSide>, TOptional<EInputSide>>& Buffer) const;
+
+public:
 
     //TODO: subject to change to the set of UMoveDataAssets
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -26,7 +31,8 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     float MovementTime = 0.2f;
 
-    TOptional<FDirectedMove> GetDirectedMove(const TPair<TOptional<EInputSide>, TOptional<EInputSide>>& Buffer) const;
+    EPlayer Player = EPlayer::One;
+
 protected:
     virtual void BeginPlay() override;
 
@@ -34,6 +40,6 @@ protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TObjectPtr<UBillboardComponent> SpriteComponent = nullptr;
 
-private:
-    TObjectPtr<UGGJ_PieceMovementComponent> MovementComponent;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    TObjectPtr<UGGJ_PieceMovementComponent> MovementComponent = nullptr;
 };

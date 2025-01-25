@@ -3,7 +3,6 @@
 
 #include "GGJ_PlayerPiecesSpawner.h"
 
-#include "GGJ25/GameMode/GGJ_GameState.h"
 #include "GGJ25/Player/GGJ_PlayerController.h"
 #include "GGJ25/Player/PieceActor.h"
 
@@ -25,6 +24,23 @@ void UGGJ_PlayerPiecesSpawner::BeginPlay()
     CachedGridComponent->OnGridReady.AddUObject(this, &ThisClass::OnGridReady);
 }
 
+APieceActor* UGGJ_PlayerPiecesSpawner::SpawnPlayer(const EPlayer Player, const FIntVector2& PieceSpawnCoordinates) const
+{
+    CachedGridComponent->SetPlayerLocation(PieceSpawnCoordinates, Player, false);
+
+    const FVector PieceWorldLocation = CachedGridComponent->GetPlayerWorldLocation(Player).GetValue();
+    const FTransform PieceSpawnTransform = FTransform(PieceWorldLocation);
+
+    APieceActor* PlayerPiece = GetWorld()->SpawnActorDeferred<APieceActor>(
+        PlayerPieceActorClass,
+        FTransform::Identity);
+    PlayerPiece->FinishSpawning(PieceSpawnTransform);
+
+    PlayerPiece->Player = Player;
+
+    return PlayerPiece;
+}
+
 void UGGJ_PlayerPiecesSpawner::OnGridReady()
 {
     CachedGridComponent->OnGridReady.RemoveAll(this);
@@ -32,29 +48,11 @@ void UGGJ_PlayerPiecesSpawner::OnGridReady()
     const auto PlayersSpawnCoordinates = GetPlayersSpawnCoordinates();
 
     // =============== Player 1 ===============
-    CachedGridComponent->SetPlayerLocation(PlayersSpawnCoordinates.Key, EPlayer::One, false);
-
-    const FVector FirstPlayerWorldLocation = CachedGridComponent->GetPlayerWorldLocation(EPlayer::One).GetValue();
-
-    const FTransform FirstPlayerSpawnTransform = FTransform(FirstPlayerWorldLocation);
-
-    APieceActor* FirstPlayerPiece = GetWorld()->SpawnActorDeferred<APieceActor>(
-        PlayerPieceActorClass,
-        FTransform::Identity);
-    FirstPlayerPiece->FinishSpawning(FirstPlayerSpawnTransform);
+    APieceActor* FirstPlayerPiece = SpawnPlayer(EPlayer::One, PlayersSpawnCoordinates.Key);
 
 
     // =============== Player 2 ===============
-    CachedGridComponent->SetPlayerLocation(PlayersSpawnCoordinates.Value, EPlayer::Two, false);
-
-    const FVector SecondPlayerWorldLocation = CachedGridComponent->GetPlayerWorldLocation(EPlayer::Two).GetValue();
-
-    const FTransform SecondPlayerSpawnTransform = FTransform(SecondPlayerWorldLocation);
-
-    APieceActor* SecondPlayerPiece = GetWorld()->SpawnActorDeferred<APieceActor>(
-        PlayerPieceActorClass,
-        FTransform::Identity);
-    SecondPlayerPiece->FinishSpawning(SecondPlayerSpawnTransform);
+    APieceActor* SecondPlayerPiece = SpawnPlayer(EPlayer::Two, PlayersSpawnCoordinates.Value);
 
 
     // =============== Set them to PC ===============
