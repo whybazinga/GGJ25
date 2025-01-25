@@ -2,6 +2,8 @@
 
 #include "GGJ_PlayerController.h"
 
+#include "GGJ25/GeneralTypes.h"
+
 #include "PieceActor.h"
 
 void AGGJ_PlayerController::SetupInputComponent()
