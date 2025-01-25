@@ -8,7 +8,10 @@
 
 #include "GGJ_GameMode.generated.h"
 
+
+class UGGJ_DeathEffectsComponent;
 class UGGJ_DeathsTracker;
+
 /**
  *
  */
@@ -22,5 +25,12 @@ public:
 
 public:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-    TObjectPtr<UGGJ_DeathsTracker> DeathsChecker = nullptr;
+    TObjectPtr<UGGJ_DeathsTracker> DeathsTracker = nullptr;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    TObjectPtr<UGGJ_DeathEffectsComponent> DeathEffectsComponent = nullptr;
+
+protected:
+
+    virtual void BeginPlay() override;
 };

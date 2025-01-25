@@ -2,12 +2,12 @@
 
 #include "GGJ_PlayerController.h"
 
-#include "GGJ25/GeneralTypes.h"
-#include "GGJ25/GameMode/GGJ_GameState.h"
 #include "GGJ25/GameMode/Components/GGJ_GridComponent.h"
-#include "GGJ25/GameMode/Components/GGJ_PieceMovementComponent.h"
+#include "GGJ25/GameMode/GGJ_GameState.h"
+#include "GGJ25/GeneralTypes.h"
 
 #include "PieceActor.h"
+
 
 void AGGJ_PlayerController::BeginPlay()
 {
@@ -19,16 +19,26 @@ void AGGJ_PlayerController::BeginPlay()
 void AGGJ_PlayerController::SetupInputComponent()
 {
     Super::SetupInputComponent();
-    
+
     InputComponent->BindAction("ForwardFirst", IE_Pressed, this, &ThisClass::ForwardFirst);
     InputComponent->BindAction("BackwardFirst", IE_Pressed, this, &ThisClass::BackwardFirst);
     InputComponent->BindAction("LeftFirst", IE_Pressed, this, &ThisClass::LeftFirst);
     InputComponent->BindAction("RightFirst", IE_Pressed, this, &ThisClass::RightFirst);
-    
+
     InputComponent->BindAction("ForwardSecond", IE_Pressed, this, &ThisClass::ForwardSecond);
     InputComponent->BindAction("BackwardSecond", IE_Pressed, this, &ThisClass::BackwardSecond);
     InputComponent->BindAction("LeftSecond", IE_Pressed, this, &ThisClass::LeftSecond);
     InputComponent->BindAction("RightSecond", IE_Pressed, this, &ThisClass::RightSecond);
+}
+
+APieceActor* AGGJ_PlayerController::GetPlayerPawn(const EPlayer InPlayer) const
+{
+    if (InPlayer == EPlayer::One)
+    {
+        return PawnOne;
+    }
+
+    return PawnTwo;
 }
 
 void AGGJ_PlayerController::ForwardFirst()

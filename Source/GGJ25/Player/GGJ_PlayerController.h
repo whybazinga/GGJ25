@@ -45,6 +45,8 @@ public:
     FOnMoveFinished& GetOnMoveFinished() { return OnMoveFinished; }
     FOnCooldownFinished& GetOnCooldownFinished(){ return OnCooldownFinished; }
     FOnPiecesSet& GetOnPiecesSet() { return OnPiecesSet; }
+
+    APieceActor* GetPlayerPawn(const EPlayer InPlayer) const;
     
 protected:
     virtual void BeginPlay() override;
