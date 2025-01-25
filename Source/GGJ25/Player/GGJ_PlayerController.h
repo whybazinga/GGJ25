@@ -3,17 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "GGJ25/Moves/MoveDataAsset.h"
+
 #include "GGJ_PlayerController.generated.h"
 
+
+enum class EPlayer : bool;
 class APieceActor;
 
-
-enum class EPlayer : bool
-{
-    One,
-    Two
-};
 
 /**
  *
