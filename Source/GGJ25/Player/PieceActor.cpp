@@ -9,7 +9,10 @@ APieceActor::APieceActor() : Super()
 {
     PrimaryActorTick.bCanEverTick = false;
 
+    RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
     SpriteComponent = CreateDefaultSubobject<UBillboardComponent>("SpriteComponent");
+    SpriteComponent->SetupAttachment(RootComponent);
+    SpriteComponent->bHiddenInGame = false;
 }
 
 void APieceActor::BeginPlay()
