@@ -11,6 +11,7 @@
 #include "GGJ_GridComponent.generated.h"
 
 
+struct FCoordinates;
 enum class EPlayer : bool;
 DECLARE_MULTICAST_DELEGATE(FOnGridReady);
 
@@ -38,6 +39,8 @@ protected:
     void GenerateGrid();
 
     void SetPlayerLocation(FIntVector2 NewLocation, EPlayer Player);
+
+    TArray<FVector> GetAppliedMoveStepsWorldLocations(const FIntVector2 SourceLocation, TArray<FCoordinates> Steps) const;
 
 protected:
 

@@ -62,6 +62,21 @@ void UGGJ_GridComponent::SetPlayerLocation(const FIntVector2 NewLocation, const 
     }
 }
 
+TArray<FVector> UGGJ_GridComponent::GetAppliedMoveStepsWorldLocations(const FIntVector2 SourceLocation, TArray<FCoordinates> Steps) const
+{
+    TArray<FVector> OutStepsLocations;
+
+    FIntVector2 CurrentLocation = SourceLocation;
+    for (const FCoordinates& Step : Steps)
+    {
+        CurrentLocation.X += Step.X;
+        CurrentLocation.Y += Step.Y;
+        OutStepsLocations.Add(Grid->GetTileWorldLocation(CurrentLocation));
+    }
+
+    return OutStepsLocations;
+}
+
 TPair<FVector, FVector> UGGJ_GridComponent::GetPlayersSpawnLocations() const
 {
     const bool ShouldSpawnOnOppositeY = FMath::RandBool();
@@ -94,8 +109,8 @@ TPair<FVector, FVector> UGGJ_GridComponent::GetPlayersSpawnLocations() const
     check(Grid->Tiles[SecondPlayerSpawnLocation.Y].IsValidIndex(SecondPlayerSpawnLocation.X));
 
     return {
-        Grid->GetTileWorldLocation(FirstPlayerSpawnLocation.X, FirstPlayerSpawnLocation.Y),
-        Grid->GetTileWorldLocation(SecondPlayerSpawnLocation.X, SecondPlayerSpawnLocation.Y)
+        Grid->GetTileWorldLocation(FirstPlayerSpawnLocation),
+        Grid->GetTileWorldLocation(SecondPlayerSpawnLocation)
     };
 }
 

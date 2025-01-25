@@ -59,6 +59,8 @@ public:
 
     TOptional<FTile> GetTileOptional(int32 X, int32 Y) const;
     FTile GetTileChecked(int32 X, int32 Y) const;
+    
+    FVector GetTileWorldLocation(const FIntVector2& Coordinates) const;
     FVector GetTileWorldLocation(int32 X, int32 Y) const;
 
     TOptional<FTile> GetTileNeighbor(const FTile& Source, ETileNeighbour NeighbourType) const;

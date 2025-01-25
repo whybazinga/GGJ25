@@ -73,6 +73,11 @@ FTile AGGJ_Grid::GetTileChecked(const int32 X, const int32 Y) const
     return GetTileOptional(X, Y).GetValue();
 }
 
+FVector AGGJ_Grid::GetTileWorldLocation(const FIntVector2& Coordinates) const
+{
+    return GetTileWorldLocation(Coordinates.X, Coordinates.Y);
+}
+
 FVector AGGJ_Grid::GetTileWorldLocation(const int32 X, const int32 Y) const
 {
     return GetGridLocation() + FVector(
@@ -177,13 +182,13 @@ void AGGJ_Grid::DebugDrawTile(const UObject* WorldContext, const FTile& InTile) 
 {
     DrawDebugBox(
                 GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::ReturnNull),
-                GetTileWorldLocation(InTile.Coordinates.X, InTile.Coordinates.Y),
+                GetTileWorldLocation(InTile.Coordinates),
                 GetTileChecked(InTile.Coordinates.X, InTile.Coordinates.Y).GetExtent(),
                 FColor::Red, false, 100);
 
     DrawDebugSphere(
         GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::ReturnNull),
-        GetTileWorldLocation(InTile.Coordinates.X, InTile.Coordinates.Y),
+        GetTileWorldLocation(InTile.Coordinates),
         5,
         10,
         FColor::Black, false, 100);
