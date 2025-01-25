@@ -11,6 +11,7 @@
 #include "GGJ_GridComponent.generated.h"
 
 
+enum class EPlayer : bool;
 DECLARE_MULTICAST_DELEGATE(FOnGridReady);
 
 
@@ -34,6 +35,9 @@ protected:
 
     void GenerateGrid();
 
+    TOptional<FIntVector2> GetPlayerLocation(EPlayer Player) const;
+    void SetPlayerLocation(FIntVector2 NewLocation, EPlayer Player);
+
 protected:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
@@ -41,4 +45,7 @@ protected:
 
     UPROPERTY()
     TObjectPtr<AGGJ_Grid> Grid = nullptr;
+
+    TOptional<FIntVector2> FirstPlayerLocation;
+    TOptional<FIntVector2> SecondPlayerLocation;
 };
