@@ -4,6 +4,7 @@
 #include "GGJ_PlayerPiecesSpawner.h"
 
 #include "GGJ25/GameMode/GGJ_GameState.h"
+#include "GGJ25/Player/GGJ_PlayerController.h"
 #include "GGJ25/Player/PieceActor.h"
 
 #include "GGJ_GridComponent.h"
@@ -25,6 +26,8 @@ void UGGJ_PlayerPiecesSpawner::BeginPlay()
 
 void UGGJ_PlayerPiecesSpawner::OnGridReady()
 {
+    CachedGridComponent->OnGridReady.RemoveAll(this);
+
     const auto PlayersSpawnLocations = GetPlayersSpawnLocations();
 
     // Player 1
@@ -43,7 +46,13 @@ void UGGJ_PlayerPiecesSpawner::OnGridReady()
         FTransform::Identity);
     SecondPlayerPiece->FinishSpawning(SecondPlayerSpawnTransform);
 
-    CachedGridComponent->OnGridReady.RemoveAll(this);
+    // Set them to PC
+    AGGJ_PlayerController* PlayerController = Cast<AGGJ_PlayerController>(GetWorld()->GetFirstPlayerController());
+    check(PlayerController);
+
+    PlayerController->PawnOne = FirstPlayerPiece;
+    PlayerController->PawnTwo = SecondPlayerPiece;
+    PlayerController->GetOnPiecesSet().Broadcast();
 }
 
 TPair<FVector, FVector> UGGJ_PlayerPiecesSpawner::GetPlayersSpawnLocations() const
