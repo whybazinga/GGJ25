@@ -7,7 +7,9 @@
 #include "GGJ_PieceMovementComponent.generated.h"
 
 
-class AGGJ_PlayerController;UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
+class AGGJ_PlayerController;
+
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class GGJ25_API UGGJ_PieceMovementComponent : public UActorComponent
 {
     GENERATED_BODY()
