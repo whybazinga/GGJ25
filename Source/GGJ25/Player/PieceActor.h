@@ -25,7 +25,7 @@ protected:
     virtual void BeginPlay() override;
 
 protected:
-    UPROPERTY()
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TObjectPtr<UBillboardComponent> SpriteComponent = nullptr;
 
 };
