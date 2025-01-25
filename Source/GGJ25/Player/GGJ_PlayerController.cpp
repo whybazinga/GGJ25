@@ -3,8 +3,18 @@
 #include "GGJ_PlayerController.h"
 
 #include "GGJ25/GeneralTypes.h"
+#include "GGJ25/GameMode/GGJ_GameState.h"
+#include "GGJ25/GameMode/Components/GGJ_GridComponent.h"
+#include "GGJ25/GameMode/Components/GGJ_PieceMovementComponent.h"
 
 #include "PieceActor.h"
+
+void AGGJ_PlayerController::BeginPlay()
+{
+    Super::BeginPlay();
+    CachedGridComponent = GetWorld()->GetGameState<AGGJ_GameState>()->FindComponentByClass<UGGJ_GridComponent>();
+    check(CachedGridComponent.IsValid());
+}
 
 void AGGJ_PlayerController::SetupInputComponent()
 {
@@ -82,34 +92,58 @@ void AGGJ_PlayerController::ProcessMovement(EInputSide InputSide, EPlayer Player
     if(PlayerEnum == EPlayer::One)
     {
         UpdateBufferInternal(BufferFirst, InputSide);
-        MovePawn(PawnOne, BufferFirst);
     }
     else
     {
         UpdateBufferInternal(BufferSecond, InputSide);
-        MovePawn(PawnTwo, BufferSecond);
     }
+    MovePawn(PlayerEnum);
     
     FString PlayerS = (PlayerEnum == EPlayer::One) ? "One" : "Two";
     TPair<FString, FString> BufferS = PlayerEnum == EPlayer::One ? ConvertBufferToString(BufferFirst) : ConvertBufferToString(BufferSecond);
     UE_LOG(LogTemp, Warning, TEXT("Player %s buffer: [%s, %s]"), *PlayerS, *BufferS.Key, *BufferS.Value);
 }
 
-void AGGJ_PlayerController::MovePawn(APieceActor* Piece, const TInputBuffer& Buffer)
+void AGGJ_PlayerController::MovePawn(EPlayer PlayerEnum)
 {
-    if(!Buffer.Key.IsSet() || !Buffer.Value.IsSet())
+    TInputBuffer InputBuffer;
+    APieceActor* Piece;
+    if(PlayerEnum == EPlayer::One)
+    {
+        InputBuffer = BufferFirst;
+        Piece = PawnOne;
+    }
+    else
+    {
+        InputBuffer = BufferSecond;
+        Piece = PawnTwo;
+    }
+
+    if(!InputBuffer.Key.IsSet() || !InputBuffer.Value.IsSet())
     {
         return;
     }
 
-    TOptional<FDirectedMove> Move = Piece->GetDirectedMove(Buffer);
+    TOptional<FDirectedMove> Move = Piece->GetDirectedMove(InputBuffer);
     if(!Move.IsSet())
     {
         UE_LOG(LogTemp, Warning, TEXT("Move is not found: [%s]"), *Piece->GetName());
         return;
     }
 
-    
+    TOptional<FIntVector2> PlayerCurrentLocation = CachedGridComponent->GetPlayerLocation(PlayerEnum);
+    if(!PlayerCurrentLocation.IsSet())
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Piece %s location not found"), *Piece->GetName());
+    }
+
+    TOptional<FVector> CurrentLocation = CachedGridComponent->GetPlayerWorldLocation(PlayerEnum);
+    TArray<FVector> MovePoints = CachedGridComponent->GetAppliedMoveStepsWorldLocations(PlayerCurrentLocation.GetValue(), Move.GetValue().Steps);
+    UGGJ_PieceMovementComponent* MovementComponent = Piece->GetComponentByClass<UGGJ_PieceMovementComponent>();
+    TArray<FVector> Path;
+    Path.Add(CurrentLocation.GetValue());
+    Path.Append(MovePoints);
+    MovementComponent->SetMovementStart(Path);
 }
 
 void AGGJ_PlayerController::FlushBuffer(TInputBuffer& BufferToFlush)

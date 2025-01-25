@@ -4,6 +4,7 @@
 #include "PieceActor.h"
 
 #include "Components/BillboardComponent.h"
+#include "GGJ25/GameMode/Components/GGJ_PieceMovementComponent.h"
 
 APieceActor::APieceActor() : Super()
 {
@@ -13,6 +14,8 @@ APieceActor::APieceActor() : Super()
     SpriteComponent = CreateDefaultSubobject<UBillboardComponent>("SpriteComponent");
     SpriteComponent->SetupAttachment(RootComponent);
     SpriteComponent->bHiddenInGame = false;
+
+    MovementComponent = CreateDefaultSubobject<UGGJ_PieceMovementComponent>("PieceMovementComponent");
 }
 
 TOptional<FDirectedMove> APieceActor::GetDirectedMove(const TPair<TOptional<EInputSide>, TOptional<EInputSide>>& Buffer) const

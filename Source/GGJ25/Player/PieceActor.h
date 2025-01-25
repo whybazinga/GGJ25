@@ -9,6 +9,8 @@
 #include "PieceActor.generated.h"
 
 
+class UGGJ_PieceMovementComponent;
+
 UCLASS(Blueprintable, BlueprintType)
 class GGJ25_API APieceActor : public AActor
 {
@@ -21,6 +23,9 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     UMoveDataAsset* MoveDataAsset;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    float MovementTime = 0.2f;
+
     TOptional<FDirectedMove> GetDirectedMove(const TPair<TOptional<EInputSide>, TOptional<EInputSide>>& Buffer) const;
 protected:
     virtual void BeginPlay() override;
@@ -29,4 +34,6 @@ protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TObjectPtr<UBillboardComponent> SpriteComponent = nullptr;
 
+private:
+    TObjectPtr<UGGJ_PieceMovementComponent> MovementComponent;
 };

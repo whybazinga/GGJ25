@@ -9,6 +9,7 @@
 #include "GGJ_PlayerController.generated.h"
 
 
+class UGGJ_GridComponent;
 enum class EPlayer : bool;
 class APieceActor;
 
@@ -46,6 +47,7 @@ public:
     FOnPiecesSet& GetOnPiecesSet() { return OnPiecesSet; }
     
 protected:
+    virtual void BeginPlay() override;
     virtual void SetupInputComponent() override;
 
     void ForwardFirst();
@@ -63,7 +65,7 @@ private:
     TInputBuffer BufferSecond;
     
     void ProcessMovement(EInputSide InputSide, EPlayer PlayerEnum);
-    void MovePawn(APieceActor* Piece, const TInputBuffer& Buffer);
+    void MovePawn(EPlayer PlayerEnum);
     void FlushBuffer(TInputBuffer& BufferToFlush);
 
     FString ConvertInputSideToString(EInputSide InputSide);
@@ -73,4 +75,6 @@ private:
     FOnMoveFinished OnMoveFinished;
     FOnCooldownFinished OnCooldownFinished;
     FOnPiecesSet OnPiecesSet;
+
+    TWeakObjectPtr<UGGJ_GridComponent> CachedGridComponent = nullptr;
 };
