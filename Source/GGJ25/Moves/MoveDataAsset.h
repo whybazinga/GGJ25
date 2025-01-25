@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GGJ25/GeneralTypes.h"
 #include "UObject/Object.h"
 #include "MoveDataAsset.generated.h"
 
@@ -25,18 +26,6 @@ public:
 
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     EInputSide Second;
-};
-
-USTRUCT(BlueprintType)
-struct FCoordinates
-{
-    GENERATED_BODY()
-public:
-    UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    int32 X;
-
-    UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    int32 Y;
 };
 
 USTRUCT(BlueprintType)

@@ -14,7 +14,13 @@ class APieceActor;
 
 
 /**
- *
+* Ту-ту-ту, ты тупа, убью тебя с улыбкой на устах
+* Я уеду в Будапешт и прыгну с самого красивого моста
+* Бэйби, ты в итоге так и ничего не поняла
+* А я просто сердце развлекал
+* Модели, модели
+* Модели, модели
+* Further lyrics you can find at https://genius.com/Feduk-acoustic-version-models-lyrics
  */
 UCLASS(Blueprintable, BlueprintType)
 class GGJ25_API AGGJ_PlayerController : public APlayerController

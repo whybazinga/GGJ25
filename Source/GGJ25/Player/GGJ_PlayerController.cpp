@@ -108,6 +108,8 @@ void AGGJ_PlayerController::MovePawn(APieceActor* Piece, const TInputBuffer& Buf
         UE_LOG(LogTemp, Warning, TEXT("Move is not found: [%s]"), *Piece->GetName());
         return;
     }
+
+    
 }
 
 void AGGJ_PlayerController::FlushBuffer(TInputBuffer& BufferToFlush)
