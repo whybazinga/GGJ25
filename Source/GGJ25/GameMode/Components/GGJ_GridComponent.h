@@ -11,6 +11,9 @@
 #include "GGJ_GridComponent.generated.h"
 
 
+DECLARE_MULTICAST_DELEGATE(FOnGridReady);
+
+
 UCLASS(ClassGroup = (Custom), Blueprintable, BlueprintType, meta = (BlueprintSpawnableComponent))
 class GGJ25_API UGGJ_GridComponent : public UActorComponent
 {
@@ -19,9 +22,15 @@ class GGJ25_API UGGJ_GridComponent : public UActorComponent
 public:
     UGGJ_GridComponent();
 
+    TPair<FVector,FVector> GetPlayersSpawnLocations() const;
+
+public:
+    FOnGridReady OnGridReady;
+
 protected:
 
     virtual void BeginPlay() override;
+    virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
     void GenerateGrid();
 
