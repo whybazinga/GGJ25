@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GGJ25/Moves/MoveDataAsset.h"
 
 #include "PieceActor.generated.h"
 
@@ -16,6 +17,10 @@ class GGJ25_API APieceActor : public AActor
 public:
     APieceActor();
 
+    //TODO: subject to change to the set of UMoveDataAssets
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UMoveDataAsset* MoveDataAsset;
+    
 protected:
     virtual void BeginPlay() override;
 
