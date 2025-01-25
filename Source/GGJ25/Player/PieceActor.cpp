@@ -6,6 +6,7 @@
 #include "Components/BillboardComponent.h"
 #include "GGJ25/GameMode/Components/GGJ_GridComponent.h"
 #include "GGJ25/GameMode/Components/GGJ_PieceMovementComponent.h"
+#include "GGJ25/GameMode/GGJ_GameState.h"
 
 APieceActor::APieceActor() : Super()
 {
@@ -52,6 +53,11 @@ TOptional<FDirectedMove> APieceActor::GetDirectedMove(const TPair<TOptional<EInp
 
 void APieceActor::Move(const TPair<TOptional<EInputSide>, TOptional<EInputSide>>& InputBuffer)
 {
+    if (!GetWorld()->GetGameState<AGGJ_GameState>()->IsMovementAllowed())
+    {
+        return;
+    }
+
     TOptional<FDirectedMove> Move = GetDirectedMove(InputBuffer);
     if (!Move.IsSet())
     {

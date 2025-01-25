@@ -14,3 +14,13 @@ void AGGJ_GameState::BeginPlay()
 
     GridComponent = GetComponentByClass<UGGJ_GridComponent>();
 }
+
+void AGGJ_GameState::SetMovementAllowed(const bool InMovementAllowed)
+{
+    bIsMovementAllowed = InMovementAllowed;
+}
+
+bool AGGJ_GameState::IsMovementAllowed() const
+{
+    return bIsMovementAllowed;
+}

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 
+#include "Components/GGJ_DeathEffectsComponent.h"
 #include "GameFramework/GameMode.h"
 
 #include "GGJ_GameMode.generated.h"
@@ -23,6 +24,10 @@ class GGJ25_API AGGJ_GameMode : public AGameMode
 public:
     AGGJ_GameMode();
 
+    void Start();
+
+    void Restart();
+
 public:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TObjectPtr<UGGJ_DeathsTracker> DeathsTracker = nullptr;
@@ -33,4 +38,7 @@ public:
 protected:
 
     virtual void BeginPlay() override;
+    virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+    void OnPlayerDeath(EPlayer Player);
 };

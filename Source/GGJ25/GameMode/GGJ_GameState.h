@@ -24,7 +24,13 @@ public:
 
     virtual void BeginPlay() override;
 
+    void SetMovementAllowed(const bool InMovementAllowed);
+
+    bool IsMovementAllowed() const;
+
 protected:
+
+    bool bIsMovementAllowed = false;
 
     TObjectPtr<UGGJ_GridComponent> GridComponent = nullptr;
 };

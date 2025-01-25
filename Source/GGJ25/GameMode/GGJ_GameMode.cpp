@@ -24,4 +24,30 @@ AGGJ_GameMode::AGGJ_GameMode()
 void AGGJ_GameMode::BeginPlay()
 {
     Super::BeginPlay();
+
+    DeathsTracker->OnPlayerDeath.AddUObject(this, &ThisClass::OnPlayerDeath);
+
+    Start();
+}
+
+void AGGJ_GameMode::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+    DeathsTracker->OnPlayerDeath.RemoveAll(this);
+
+    Super::EndPlay(EndPlayReason);
+}
+
+void AGGJ_GameMode::Start()
+{
+    GetGameState<AGGJ_GameState>()->SetMovementAllowed(true);
+}
+
+void AGGJ_GameMode::Restart()
+{
+    GetGameState<AGGJ_GameState>()->SetMovementAllowed(true);
+}
+
+void AGGJ_GameMode::OnPlayerDeath(EPlayer Player)
+{
+    GetGameState<AGGJ_GameState>()->SetMovementAllowed(false);
 }
