@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 
+#include "GGJ25/GameMode/Components/GGJ_PieceMovementComponent.h"
 #include "GGJ25/Moves/MoveDataAsset.h"
 
 #include "GGJ_PlayerController.generated.h"
@@ -29,7 +30,6 @@ class GGJ25_API AGGJ_PlayerController : public APlayerController
     GENERATED_BODY()
 
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnMoveStarted, AActor*, Actor, FCoordinates, Coordinates);
-    DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnMoveFinished, AActor*, Actor, FCoordinates, Coordinates);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCooldownFinished);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPiecesSet);
     
@@ -42,7 +42,6 @@ public:
     APieceActor* PawnTwo;
 
     FOnMoveStarted& GetOnMoveStarted() { return OnMoveStarted; }
-    FOnMoveFinished& GetOnMoveFinished() { return OnMoveFinished; }
     FOnCooldownFinished& GetOnCooldownFinished(){ return OnCooldownFinished; }
     FOnPiecesSet& GetOnPiecesSet() { return OnPiecesSet; }
 
@@ -50,6 +49,7 @@ public:
     
 protected:
     virtual void BeginPlay() override;
+    virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
     virtual void SetupInputComponent() override;
 
     void ForwardFirst();
@@ -62,6 +62,12 @@ protected:
     void LeftSecond();
     void RightSecond();
 
+    void FirstPlayerFinished(FMoveRequest MoveRequest);
+    void SecondPlayerFinished(FMoveRequest MoveRequest);
+    
+    UFUNCTION()
+    void OnPiecesSeted();
+    
 private:
     TInputBuffer BufferFirst;
     TInputBuffer BufferSecond;
@@ -74,7 +80,6 @@ private:
     TPair<FString, FString> ConvertBufferToString(const TInputBuffer& Buffer);
 
     FOnMoveStarted OnMoveStarted;
-    FOnMoveFinished OnMoveFinished;
     FOnCooldownFinished OnCooldownFinished;
     FOnPiecesSet OnPiecesSet;
 
