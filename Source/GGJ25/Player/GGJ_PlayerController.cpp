@@ -2,6 +2,8 @@
 
 #include "GGJ_PlayerController.h"
 
+#include "PieceActor.h"
+
 void AGGJ_PlayerController::SetupInputComponent()
 {
     Super::SetupInputComponent();
@@ -19,45 +21,45 @@ void AGGJ_PlayerController::SetupInputComponent()
 
 void AGGJ_PlayerController::ForwardFirst()
 {
-    UpdateBuffer(EInputSide::Front, EPlayer::One);
+    ProcessMovement(EInputSide::Front, EPlayer::One);
 }
 
 void AGGJ_PlayerController::BackwardFirst()
 {
-    UpdateBuffer(EInputSide::Back, EPlayer::One);
+    ProcessMovement(EInputSide::Back, EPlayer::One);
 }
 
 void AGGJ_PlayerController::LeftFirst()
 {
-    UpdateBuffer(EInputSide::Left, EPlayer::One);
+    ProcessMovement(EInputSide::Left, EPlayer::One);
 }
 
 void AGGJ_PlayerController::RightFirst()
 {
-    UpdateBuffer(EInputSide::Right, EPlayer::One);
+    ProcessMovement(EInputSide::Right, EPlayer::One);
 }
 
 void AGGJ_PlayerController::ForwardSecond()
 {
-    UpdateBuffer(EInputSide::Front, EPlayer::Two);
+    ProcessMovement(EInputSide::Front, EPlayer::Two);
 }
 
 void AGGJ_PlayerController::BackwardSecond()
 {
-    UpdateBuffer(EInputSide::Back, EPlayer::Two);
+    ProcessMovement(EInputSide::Back, EPlayer::Two);
 }
 
 void AGGJ_PlayerController::LeftSecond()
 {
-    UpdateBuffer(EInputSide::Left, EPlayer::Two);
+    ProcessMovement(EInputSide::Left, EPlayer::Two);
 }
 
 void AGGJ_PlayerController::RightSecond()
 {
-    UpdateBuffer(EInputSide::Right, EPlayer::Two);
+    ProcessMovement(EInputSide::Right, EPlayer::Two);
 }
 
-void AGGJ_PlayerController::UpdateBuffer(EInputSide InputSide, EPlayer PlayerEnum)
+void AGGJ_PlayerController::ProcessMovement(EInputSide InputSide, EPlayer PlayerEnum)
 {
     auto UpdateBufferInternal = [this](TInputBuffer& BufferToUpdate, EInputSide InputSide)
     {
@@ -78,15 +80,32 @@ void AGGJ_PlayerController::UpdateBuffer(EInputSide InputSide, EPlayer PlayerEnu
     if(PlayerEnum == EPlayer::One)
     {
         UpdateBufferInternal(BufferFirst, InputSide);
+        MovePawn(PawnOne, BufferFirst);
     }
     else
     {
         UpdateBufferInternal(BufferSecond, InputSide);
+        MovePawn(PawnTwo, BufferSecond);
     }
     
     FString PlayerS = (PlayerEnum == EPlayer::One) ? "One" : "Two";
     TPair<FString, FString> BufferS = PlayerEnum == EPlayer::One ? ConvertBufferToString(BufferFirst) : ConvertBufferToString(BufferSecond);
     UE_LOG(LogTemp, Warning, TEXT("Player %s buffer: [%s, %s]"), *PlayerS, *BufferS.Key, *BufferS.Value);
+}
+
+void AGGJ_PlayerController::MovePawn(APieceActor* Piece, const TInputBuffer& Buffer)
+{
+    if(!Buffer.Key.IsSet() || !Buffer.Value.IsSet())
+    {
+        return;
+    }
+
+    TOptional<FDirectedMove> Move = Piece->GetDirectedMove(Buffer);
+    if(!Move.IsSet())
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Move is not found: [%s]"), *Piece->GetName());
+        return;
+    }
 }
 
 void AGGJ_PlayerController::FlushBuffer(TInputBuffer& BufferToFlush)

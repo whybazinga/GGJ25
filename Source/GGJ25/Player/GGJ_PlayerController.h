@@ -56,7 +56,8 @@ private:
     TInputBuffer BufferFirst;
     TInputBuffer BufferSecond;
     
-    void UpdateBuffer(EInputSide InputSide, EPlayer PlayerEnum);
+    void ProcessMovement(EInputSide InputSide, EPlayer PlayerEnum);
+    void MovePawn(APieceActor* Piece, const TInputBuffer& Buffer);
     void FlushBuffer(TInputBuffer& BufferToFlush);
 
     FString ConvertInputSideToString(EInputSide InputSide);

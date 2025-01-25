@@ -20,7 +20,8 @@ public:
     //TODO: subject to change to the set of UMoveDataAssets
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     UMoveDataAsset* MoveDataAsset;
-    
+
+    TOptional<FDirectedMove> GetDirectedMove(const TPair<TOptional<EInputSide>, TOptional<EInputSide>>& Buffer) const;
 protected:
     virtual void BeginPlay() override;
 
