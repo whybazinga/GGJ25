@@ -57,7 +57,10 @@ public:
 
     FVector GetGridLocation() const;
 
+    
+    TOptional<FTile> GetTileOptional(const FIntVector2& Coordinates) const;
     TOptional<FTile> GetTileOptional(int32 X, int32 Y) const;
+    FTile GetTileChecked(const FIntVector2& Coordinates) const;
     FTile GetTileChecked(int32 X, int32 Y) const;
     
     FVector GetTileWorldLocation(const FIntVector2& Coordinates) const;

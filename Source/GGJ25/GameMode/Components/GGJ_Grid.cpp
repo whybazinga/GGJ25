@@ -58,6 +58,11 @@ FVector AGGJ_Grid::GetGridLocation() const
     return GetActorLocation() + GridLocationOffset;
 }
 
+TOptional<FTile> AGGJ_Grid::GetTileOptional(const FIntVector2& Coordinates) const
+{
+    return GetTileOptional(Coordinates.X, Coordinates.Y);
+}
+
 TOptional<FTile> AGGJ_Grid::GetTileOptional(const int32 X, const int32 Y) const
 {
     if (Tiles.IsValidIndex(Y) && Tiles[Y].IsValidIndex(X))
@@ -66,6 +71,11 @@ TOptional<FTile> AGGJ_Grid::GetTileOptional(const int32 X, const int32 Y) const
     }
 
     return NullOpt;
+}
+
+FTile AGGJ_Grid::GetTileChecked(const FIntVector2& Coordinates) const
+{
+    return GetTileChecked(Coordinates.X, Coordinates.Y);
 }
 
 FTile AGGJ_Grid::GetTileChecked(const int32 X, const int32 Y) const
@@ -183,7 +193,7 @@ void AGGJ_Grid::DebugDrawTile(const UObject* WorldContext, const FTile& InTile) 
     DrawDebugBox(
                 GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::ReturnNull),
                 GetTileWorldLocation(InTile.Coordinates),
-                GetTileChecked(InTile.Coordinates.X, InTile.Coordinates.Y).GetExtent(),
+                GetTileChecked(InTile.Coordinates).GetExtent(),
                 FColor::Red, false, 100);
 
     DrawDebugSphere(
