@@ -28,6 +28,9 @@ public:
 
     TOptional<FIntVector2> GetPlayerLocation(EPlayer Player) const;
 
+    TArray<FVector> GetAppliedMoveStepsWorldLocations(const FIntVector2 SourceLocation, TArray<FCoordinates> Steps) const;
+
+
 public:
     FOnGridReady OnGridReady;
 
@@ -39,8 +42,6 @@ protected:
     void GenerateGrid();
 
     void SetPlayerLocation(FIntVector2 NewLocation, EPlayer Player);
-
-    TArray<FVector> GetAppliedMoveStepsWorldLocations(const FIntVector2 SourceLocation, TArray<FCoordinates> Steps) const;
 
 protected:
 
