@@ -5,7 +5,6 @@
 #include "GGJ25/GameMode/Components/GGJ_GridComponent.h"
 #include "GGJ25/GameMode/GGJ_GameState.h"
 #include "GGJ25/GeneralTypes.h"
-
 #include "PieceActor.h"
 
 
@@ -14,6 +13,30 @@ void AGGJ_PlayerController::BeginPlay()
     Super::BeginPlay();
     CachedGridComponent = GetWorld()->GetGameState<AGGJ_GameState>()->FindComponentByClass<UGGJ_GridComponent>();
     check(CachedGridComponent.IsValid());
+
+    if(!PawnTwo || !PawnOne)
+    {
+        OnPiecesSet.AddDynamic(this, &ThisClass::OnPiecesSeted);
+    }
+    else
+    {
+        OnPiecesSeted();
+    }
+    
+}
+
+void AGGJ_PlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+    if(UGGJ_PieceMovementComponent* FirstPieceMovementComponent = PawnOne->GetComponentByClass<UGGJ_PieceMovementComponent>())
+    {
+        FirstPieceMovementComponent->OnMoveFinished.RemoveAll(this);
+    }
+
+    if(UGGJ_PieceMovementComponent* SecondPieceMovementComponent = PawnOne->GetComponentByClass<UGGJ_PieceMovementComponent>())
+    {
+        SecondPieceMovementComponent->OnMoveFinished.RemoveAll(this);
+    }
+    Super::EndPlay(EndPlayReason);
 }
 
 void AGGJ_PlayerController::SetupInputComponent()
@@ -79,6 +102,29 @@ void AGGJ_PlayerController::LeftSecond()
 void AGGJ_PlayerController::RightSecond()
 {
     ProcessMovement(EInputSide::Right, EPlayer::Two);
+}
+
+void AGGJ_PlayerController::FirstPlayerFinished(FMoveRequest MoveRequest)
+{
+    FlushBuffer(BufferFirst);
+}
+
+void AGGJ_PlayerController::SecondPlayerFinished(FMoveRequest MoveRequest)
+{
+    FlushBuffer(BufferSecond);
+}
+
+void AGGJ_PlayerController::OnPiecesSeted()
+{
+    if(UGGJ_PieceMovementComponent* FirstPieceMovementComponent = PawnOne->GetComponentByClass<UGGJ_PieceMovementComponent>())
+    {
+        FirstPieceMovementComponent->OnMoveFinished.AddUObject(this, &ThisClass::FirstPlayerFinished);
+    }
+
+    if(UGGJ_PieceMovementComponent* SecondPieceMovementComponent = PawnTwo->GetComponentByClass<UGGJ_PieceMovementComponent>())
+    {
+        SecondPieceMovementComponent->OnMoveFinished.AddUObject(this, &ThisClass::SecondPlayerFinished);
+    }
 }
 
 void AGGJ_PlayerController::ProcessMovement(EInputSide InputSide, EPlayer PlayerEnum)
