@@ -61,14 +61,17 @@ void UGGJ_GridComponent::SetPlayerLocation(const FIntVector2 NewLocation, const 
     {
         case EPlayer::One:
             FirstPlayerLocation = NewLocation;
-            return;
+            break;
         case EPlayer::Two:
             SecondPlayerLocation = NewLocation;
-            return;
+            break;
 
         default:
             checkNoEntry();
+            return;
     }
+
+    OnGridPlayerLocationSet.Broadcast(Player);
 }
 
 TArray<FVector> UGGJ_GridComponent::GetAppliedMoveStepsWorldLocations(const FIntVector2 SourceLocation, TArray<FCoordinates> Steps) const
