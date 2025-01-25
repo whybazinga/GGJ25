@@ -26,6 +26,7 @@ class GGJ25_API AGGJ_PlayerController : public APlayerController
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnMoveStarted, AActor*, Actor, FCoordinates, Coordinates);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnMoveFinished, AActor*, Actor, FCoordinates, Coordinates);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCooldownFinished);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPiecesSet);
     
     using TInputBuffer = TPair<TOptional<EInputSide>, TOptional<EInputSide>>; 
 public:
@@ -38,6 +39,7 @@ public:
     FOnMoveStarted& GetOnMoveStarted() { return OnMoveStarted; }
     FOnMoveFinished& GetOnMoveFinished() { return OnMoveFinished; }
     FOnCooldownFinished& GetOnCooldownFinished(){ return OnCooldownFinished; }
+    FOnPiecesSet& GetOnPiecesSet() { return OnPiecesSet; }
     
 protected:
     virtual void SetupInputComponent() override;
@@ -66,4 +68,5 @@ private:
     FOnMoveStarted OnMoveStarted;
     FOnMoveFinished OnMoveFinished;
     FOnCooldownFinished OnCooldownFinished;
+    FOnPiecesSet OnPiecesSet;
 };
