@@ -19,7 +19,7 @@ void UGGJ_PlayerPiecesSpawner::BeginPlay()
 {
     Super::BeginPlay();
 
-    CachedGridComponent = GetWorld()->GetGameState<AGGJ_GameState>()->FindComponentByClass<UGGJ_GridComponent>();
+    CachedGridComponent = UGGJ_GridComponent::Get(this);
     check(CachedGridComponent.IsValid());
     CachedGridComponent->OnGridReady.AddUObject(this, &ThisClass::OnGridReady);
 }

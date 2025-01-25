@@ -13,7 +13,10 @@
 
 struct FCoordinates;
 enum class EPlayer : bool;
+
+
 DECLARE_MULTICAST_DELEGATE(FOnGridReady);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnGridPlayerLocationSet, EPlayer);
 
 
 UCLASS(ClassGroup = (Custom), Blueprintable, BlueprintType, meta = (BlueprintSpawnableComponent))
@@ -24,6 +27,8 @@ class GGJ25_API UGGJ_GridComponent : public UActorComponent
 public:
     UGGJ_GridComponent();
 
+    static UGGJ_GridComponent* Get(const UObject* WorldContext);
+
     TPair<FVector,FVector> GetPlayersSpawnLocations() const;
 
     TOptional<FIntVector2> GetPlayerLocation(EPlayer Player) const;
@@ -33,6 +38,8 @@ public:
 
 public:
     FOnGridReady OnGridReady;
+
+    FOnGridPlayerLocationSet OnGridPlayerLocationSet;
 
 protected:
 

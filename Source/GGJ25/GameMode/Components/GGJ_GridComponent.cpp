@@ -4,12 +4,21 @@
 #include "GGJ_GridComponent.h"
 
 #include "GGJ25/GeneralTypes.h"
+#include "GameFramework/GameStateBase.h"
 #include "Kismet/GameplayStatics.h"
 
 
 UGGJ_GridComponent::UGGJ_GridComponent()
     : Super(FObjectInitializer::Get())
 {
+}
+
+UGGJ_GridComponent* UGGJ_GridComponent::Get(const UObject* WorldContext)
+{
+    return GEngine
+            ->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::ReturnNull)
+            ->GetGameState()
+            ->FindComponentByClass<UGGJ_GridComponent>();
 }
 
 
