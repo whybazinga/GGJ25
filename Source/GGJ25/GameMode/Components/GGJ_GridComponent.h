@@ -25,6 +25,8 @@ public:
 
     TPair<FVector,FVector> GetPlayersSpawnLocations() const;
 
+    TOptional<FIntVector2> GetPlayerLocation(EPlayer Player) const;
+
 public:
     FOnGridReady OnGridReady;
 
@@ -35,7 +37,6 @@ protected:
 
     void GenerateGrid();
 
-    TOptional<FIntVector2> GetPlayerLocation(EPlayer Player) const;
     void SetPlayerLocation(FIntVector2 NewLocation, EPlayer Player);
 
 protected:
