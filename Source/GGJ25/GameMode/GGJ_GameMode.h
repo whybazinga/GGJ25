@@ -8,6 +8,7 @@
 
 #include "GGJ_GameMode.generated.h"
 
+class UGGJ_DeathsTracker;
 /**
  *
  */
@@ -18,4 +19,8 @@ class GGJ25_API AGGJ_GameMode : public AGameMode
 
 public:
     AGGJ_GameMode();
+
+public:
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    TObjectPtr<UGGJ_DeathsTracker> DeathsChecker = nullptr;
 };

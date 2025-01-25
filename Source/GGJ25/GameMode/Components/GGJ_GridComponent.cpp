@@ -55,7 +55,7 @@ TOptional<FIntVector2> UGGJ_GridComponent::GetPlayerLocation(const EPlayer Playe
     }
 }
 
-void UGGJ_GridComponent::SetPlayerLocation(const FIntVector2 NewLocation, const EPlayer Player)
+void UGGJ_GridComponent::SetPlayerLocation(const FIntVector2 NewLocation, const EPlayer Player, const bool ShouldNotify /* = true */)
 {
     switch (Player)
     {
@@ -71,7 +71,10 @@ void UGGJ_GridComponent::SetPlayerLocation(const FIntVector2 NewLocation, const 
             return;
     }
 
-    OnGridPlayerLocationSet.Broadcast(Player);
+    if (ShouldNotify)
+    {
+        OnGridPlayerLocationSet.Broadcast(Player);
+    }
 }
 
 TArray<FVector> UGGJ_GridComponent::GetAppliedMoveStepsWorldLocations(const FIntVector2 SourceLocation, TArray<FCoordinates> Steps) const
@@ -87,6 +90,11 @@ TArray<FVector> UGGJ_GridComponent::GetAppliedMoveStepsWorldLocations(const FInt
     }
 
     return OutStepsLocations;
+}
+
+bool UGGJ_GridComponent::IsValidGridLocation(const FIntVector2& Location) const
+{
+    return Grid->GetTileOptional(Location).IsSet();
 }
 
 TPair<FVector, FVector> UGGJ_GridComponent::GetPlayersSpawnLocations() const

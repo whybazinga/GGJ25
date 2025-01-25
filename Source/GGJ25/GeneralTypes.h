@@ -20,3 +20,11 @@ enum class EPlayer : bool
     One,
     Two
 };
+
+namespace Utility
+{
+    inline EPlayer GetOppositePlayer(const EPlayer Player)
+    {
+        return Player == EPlayer::One ? EPlayer::Two : EPlayer::One;
+    }
+}

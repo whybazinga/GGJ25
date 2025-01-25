@@ -33,8 +33,11 @@ public:
 
     TOptional<FIntVector2> GetPlayerLocation(EPlayer Player) const;
 
+    void SetPlayerLocation(FIntVector2 NewLocation, EPlayer Player, bool ShouldNotify = true);
+
     TArray<FVector> GetAppliedMoveStepsWorldLocations(const FIntVector2 SourceLocation, TArray<FCoordinates> Steps) const;
 
+    bool IsValidGridLocation(const FIntVector2& Location) const;
 
 public:
     FOnGridReady OnGridReady;
@@ -47,8 +50,6 @@ protected:
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
     void GenerateGrid();
-
-    void SetPlayerLocation(FIntVector2 NewLocation, EPlayer Player);
 
 protected:
 
