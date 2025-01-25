@@ -4,9 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+
 #include "PieceActor.generated.h"
 
-UCLASS()
+
+UCLASS(Blueprintable, BlueprintType)
 class GGJ25_API APieceActor : public AActor
 {
     GENERATED_BODY()
@@ -17,6 +19,8 @@ public:
 protected:
     virtual void BeginPlay() override;
 
-public:
-    virtual void Tick(float DeltaTime) override;
+protected:
+    UPROPERTY()
+    TObjectPtr<UBillboardComponent> SpriteComponent = nullptr;
+
 };
