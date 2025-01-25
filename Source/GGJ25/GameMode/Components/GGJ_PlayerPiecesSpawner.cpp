@@ -22,14 +22,33 @@ void UGGJ_PlayerPiecesSpawner::BeginPlay()
     CachedGridComponent = UGGJ_GridComponent::Get(this);
     check(CachedGridComponent.IsValid());
     CachedGridComponent->OnGridReady.AddUObject(this, &ThisClass::OnGridReady);
+
+    CachedPlayerController = Cast<AGGJ_PlayerController>(GetWorld()->GetFirstPlayerController());
 }
 
-APieceActor* UGGJ_PlayerPiecesSpawner::SpawnPlayer(const EPlayer Player, const FIntVector2& PieceSpawnCoordinates) const
+void UGGJ_PlayerPiecesSpawner::PlacePlayerPieceOnBoard(const EPlayer Player, const FIntVector2& Coordinates)
 {
-    CachedGridComponent->SetPlayerLocation(Player, PieceSpawnCoordinates, false);
+    const FVector PieceWorldLocation = CachedGridComponent->GetTileWorldLocation(Coordinates);
+    APieceActor* PlayerPieceActor = CachedPlayerController->GetPlayerPawn(Player);
 
-    const FVector PieceWorldLocation = CachedGridComponent->GetPlayerWorldLocation(Player).GetValue();
-    const FTransform PieceSpawnTransform = FTransform(PieceWorldLocation);
+    PlayerPieceActor->SetActorLocation(PieceWorldLocation);
+    PlayerPieceActor->SetActorHiddenInGame(false);
+
+    CachedGridComponent->SetPlayerLocation(Player, Coordinates, false);
+}
+
+void UGGJ_PlayerPiecesSpawner::PlacePiecesOnBoard()
+{
+    const auto PlayersSpawnCoordinates = GetPlayersSpawnCoordinates();
+
+    PlacePlayerPieceOnBoard(EPlayer::One, PlayersSpawnCoordinates.Key);
+    PlacePlayerPieceOnBoard(EPlayer::Two, PlayersSpawnCoordinates.Value);
+}
+
+APieceActor* UGGJ_PlayerPiecesSpawner::SpawnPlayer(const EPlayer Player) const
+{
+    // good old hide under the carpet
+    const FTransform PieceSpawnTransform = FTransform(FVector::DownVector * 1000.f);
 
     APieceActor* PlayerPiece = GetWorld()->SpawnActorDeferred<APieceActor>(
         PlayerPieceActorClass,
@@ -48,20 +67,20 @@ void UGGJ_PlayerPiecesSpawner::OnGridReady()
     const auto PlayersSpawnCoordinates = GetPlayersSpawnCoordinates();
 
     // =============== Player 1 ===============
-    APieceActor* FirstPlayerPiece = SpawnPlayer(EPlayer::One, PlayersSpawnCoordinates.Key);
+    APieceActor* FirstPlayerPiece = SpawnPlayer(EPlayer::One);
 
 
     // =============== Player 2 ===============
-    APieceActor* SecondPlayerPiece = SpawnPlayer(EPlayer::Two, PlayersSpawnCoordinates.Value);
+    APieceActor* SecondPlayerPiece = SpawnPlayer(EPlayer::Two);
 
 
     // =============== Set them to PC ===============
-    AGGJ_PlayerController* PlayerController = Cast<AGGJ_PlayerController>(GetWorld()->GetFirstPlayerController());
-    check(PlayerController);
 
-    PlayerController->PawnOne = FirstPlayerPiece;
-    PlayerController->PawnTwo = SecondPlayerPiece;
-    PlayerController->GetOnPiecesSet().Broadcast();
+    CachedPlayerController->PawnOne = FirstPlayerPiece;
+    CachedPlayerController->PawnTwo = SecondPlayerPiece;
+    CachedPlayerController->GetOnPiecesSet().Broadcast();
+
+    PlacePiecesOnBoard();
 }
 
 TPair<FIntVector2, FIntVector2> UGGJ_PlayerPiecesSpawner::GetPlayersSpawnCoordinates() const

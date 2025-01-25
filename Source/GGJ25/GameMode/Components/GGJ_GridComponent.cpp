@@ -29,6 +29,11 @@ void UGGJ_GridComponent::BeginPlay()
     GenerateGrid();
 }
 
+bool UGGJ_GridComponent::IsGridReady() const
+{
+    return bIsGridReady;
+}
+
 void UGGJ_GridComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
     Super::EndPlay(EndPlayReason);
@@ -37,6 +42,8 @@ void UGGJ_GridComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 void UGGJ_GridComponent::GenerateGrid()
 {
     Grid = Cast<AGGJ_Grid>(UGameplayStatics::GetActorOfClass(this, AGGJ_Grid::StaticClass()));
+
+    bIsGridReady = true;
     OnGridReady.Broadcast();
 }
 

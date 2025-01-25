@@ -4,6 +4,7 @@
 
 #include "Components/GGJ_DeathEffectsComponent.h"
 #include "Components/GGJ_DeathsTracker.h"
+#include "Components/GGJ_PlayerPiecesSpawner.h"
 #include "GGJ25/Player/GGJ_Pawn.h"
 #include "GGJ25/Player/GGJ_PlayerController.h"
 
@@ -27,6 +28,8 @@ void AGGJ_GameMode::BeginPlay()
 
     DeathsTracker->OnPlayerDeath.AddUObject(this, &ThisClass::OnPlayerDeath);
 
+    PlayerPiecesSpawner = GetComponentByClass<UGGJ_PlayerPiecesSpawner>();
+
     Start();
 }
 
@@ -45,9 +48,15 @@ void AGGJ_GameMode::Start()
 void AGGJ_GameMode::Restart()
 {
     GetGameState<AGGJ_GameState>()->SetMovementAllowed(true);
+    PlayerPiecesSpawner->PlacePiecesOnBoard();
+}
+
+void AGGJ_GameMode::End()
+{
+    GetGameState<AGGJ_GameState>()->SetMovementAllowed(false);
 }
 
 void AGGJ_GameMode::OnPlayerDeath(EPlayer Player)
 {
-    GetGameState<AGGJ_GameState>()->SetMovementAllowed(false);
+    End();
 }

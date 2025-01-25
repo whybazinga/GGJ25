@@ -8,7 +8,9 @@
 
 #include "GGJ_GameState.generated.h"
 
+
 class UGGJ_GridComponent;
+
 
 /**
  *
@@ -25,12 +27,12 @@ public:
     virtual void BeginPlay() override;
 
     void SetMovementAllowed(const bool InMovementAllowed);
-
     bool IsMovementAllowed() const;
 
 protected:
 
     bool bIsMovementAllowed = false;
 
+    UPROPERTY()
     TObjectPtr<UGGJ_GridComponent> GridComponent = nullptr;
 };

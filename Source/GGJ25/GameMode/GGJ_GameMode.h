@@ -10,6 +10,7 @@
 #include "GGJ_GameMode.generated.h"
 
 
+class UGGJ_PlayerPiecesSpawner;
 class UGGJ_DeathEffectsComponent;
 class UGGJ_DeathsTracker;
 
@@ -28,7 +29,12 @@ public:
 
     void Restart();
 
+    void End();
+
 public:
+    UPROPERTY()
+    TObjectPtr<UGGJ_PlayerPiecesSpawner> PlayerPiecesSpawner = nullptr;
+
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TObjectPtr<UGGJ_DeathsTracker> DeathsTracker = nullptr;
 

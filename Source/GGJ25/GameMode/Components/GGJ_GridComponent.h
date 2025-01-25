@@ -30,6 +30,8 @@ public:
 
     static UGGJ_GridComponent* Get(const UObject* WorldContext);
 
+    bool IsGridReady() const;
+
     TPair<FIntVector2, FIntVector2> GetPlayersSpawnCoordinates() const;
 
     TOptional<FIntVector2> GetPlayerLocation(EPlayer Player) const;
@@ -56,6 +58,8 @@ protected:
     void GenerateGrid();
 
 protected:
+
+    bool bIsGridReady = false;
 
     UPROPERTY()
     TObjectPtr<AGGJ_Grid> Grid = nullptr;
