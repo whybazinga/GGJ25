@@ -191,10 +191,10 @@ void AGGJ_Grid::DebugDraw(const UObject* WorldContext) const
 void AGGJ_Grid::DebugDrawTile(const UObject* WorldContext, const FTile& InTile) const
 {
     DrawDebugBox(
-                GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::ReturnNull),
-                GetTileWorldLocation(InTile.Coordinates),
-                GetTileChecked(InTile.Coordinates).GetExtent(),
-                FColor::Red, false, 100);
+        GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::ReturnNull),
+        GetTileWorldLocation(InTile.Coordinates),
+        GetTileChecked(InTile.Coordinates).GetExtent(),
+        FColor::Red, false, 100);
 
     DrawDebugSphere(
         GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::ReturnNull),

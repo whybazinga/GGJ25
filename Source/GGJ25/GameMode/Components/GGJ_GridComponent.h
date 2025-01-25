@@ -25,13 +25,15 @@ class GGJ25_API UGGJ_GridComponent : public UActorComponent
     GENERATED_BODY()
 
 public:
+
     UGGJ_GridComponent();
 
     static UGGJ_GridComponent* Get(const UObject* WorldContext);
 
-    TPair<FVector,FVector> GetPlayersSpawnLocations() const;
+    TPair<FIntVector2, FIntVector2> GetPlayersSpawnCoordinates() const;
 
     TOptional<FIntVector2> GetPlayerLocation(EPlayer Player) const;
+    TOptional<FVector> GetPlayerWorldLocation(EPlayer Player) const;
 
     void SetPlayerLocation(FIntVector2 NewLocation, EPlayer Player, bool ShouldNotify = true);
 

@@ -16,9 +16,9 @@ UGGJ_GridComponent::UGGJ_GridComponent()
 UGGJ_GridComponent* UGGJ_GridComponent::Get(const UObject* WorldContext)
 {
     return GEngine
-            ->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::ReturnNull)
-            ->GetGameState()
-            ->FindComponentByClass<UGGJ_GridComponent>();
+        ->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::ReturnNull)
+        ->GetGameState()
+        ->FindComponentByClass<UGGJ_GridComponent>();
 }
 
 
@@ -53,6 +53,16 @@ TOptional<FIntVector2> UGGJ_GridComponent::GetPlayerLocation(const EPlayer Playe
             checkNoEntry();
             return NullOpt;
     }
+}
+
+TOptional<FVector> UGGJ_GridComponent::GetPlayerWorldLocation(const EPlayer Player) const
+{
+    if (GetPlayerLocation(Player).IsSet())
+    {
+        return Grid->GetTileWorldLocation(GetPlayerLocation(Player).GetValue());
+    }
+
+    return NullOpt;
 }
 
 void UGGJ_GridComponent::SetPlayerLocation(const FIntVector2 NewLocation, const EPlayer Player, const bool ShouldNotify /* = true */)
@@ -97,40 +107,38 @@ bool UGGJ_GridComponent::IsValidGridLocation(const FIntVector2& Location) const
     return Grid->GetTileOptional(Location).IsSet();
 }
 
-TPair<FVector, FVector> UGGJ_GridComponent::GetPlayersSpawnLocations() const
+TPair<FIntVector2, FIntVector2> UGGJ_GridComponent::GetPlayersSpawnCoordinates() const
 {
     const bool ShouldSpawnOnOppositeY = FMath::RandBool();
 
-    FIntVector2 FirstPlayerSpawnLocation = FIntVector2(INDEX_NONE);
-    FIntVector2 SecondPlayerSpawnLocation = FIntVector2(INDEX_NONE);
+    FIntVector2 FirstPlayerSpawnCoordinates;
+    FIntVector2 SecondPlayerSpawnCoordinates;
 
     const bool IsFirstPlayerCloserToZero = FMath::RandBool();
     if (ShouldSpawnOnOppositeY)
     {
-        FirstPlayerSpawnLocation.X = FMath::RandHelper(Grid->Size.X);
-        FirstPlayerSpawnLocation.Y = IsFirstPlayerCloserToZero ? 0 : Grid->Size.Y - 1;
+        FirstPlayerSpawnCoordinates.X = FMath::RandHelper(Grid->Size.X);
+        FirstPlayerSpawnCoordinates.Y = IsFirstPlayerCloserToZero ? 0 : Grid->Size.Y - 1;
 
-        SecondPlayerSpawnLocation.X = Grid->Size.X - 1 - FirstPlayerSpawnLocation.X;
-        SecondPlayerSpawnLocation.Y = Grid->Size.Y - 1 - FirstPlayerSpawnLocation.Y;
+        SecondPlayerSpawnCoordinates.X = Grid->Size.X - 1 - FirstPlayerSpawnCoordinates.X;
+        SecondPlayerSpawnCoordinates.Y = Grid->Size.Y - 1 - FirstPlayerSpawnCoordinates.Y;
     }
     else
     {
-        FirstPlayerSpawnLocation.X = IsFirstPlayerCloserToZero ? 0 : Grid->Size.X - 1;
-        FirstPlayerSpawnLocation.Y = FMath::RandHelper(Grid->Size.Y);
+        FirstPlayerSpawnCoordinates.X = IsFirstPlayerCloserToZero ? 0 : Grid->Size.X - 1;
+        FirstPlayerSpawnCoordinates.Y = FMath::RandHelper(Grid->Size.Y);
 
-        SecondPlayerSpawnLocation.X = Grid->Size.X - 1 - FirstPlayerSpawnLocation.X;
-        SecondPlayerSpawnLocation.Y = Grid->Size.Y - 1 - FirstPlayerSpawnLocation.Y;
+        SecondPlayerSpawnCoordinates.X = Grid->Size.X - 1 - FirstPlayerSpawnCoordinates.X;
+        SecondPlayerSpawnCoordinates.Y = Grid->Size.Y - 1 - FirstPlayerSpawnCoordinates.Y;
     }
 
-    check(Grid->Tiles.IsValidIndex(FirstPlayerSpawnLocation.Y));
-    check(Grid->Tiles[FirstPlayerSpawnLocation.Y].IsValidIndex(FirstPlayerSpawnLocation.X));
+    check(Grid->Tiles.IsValidIndex(FirstPlayerSpawnCoordinates.Y));
+    check(Grid->Tiles[FirstPlayerSpawnCoordinates.Y].IsValidIndex(FirstPlayerSpawnCoordinates.X));
 
-    check(Grid->Tiles.IsValidIndex(SecondPlayerSpawnLocation.Y));
-    check(Grid->Tiles[SecondPlayerSpawnLocation.Y].IsValidIndex(SecondPlayerSpawnLocation.X));
+    check(Grid->Tiles.IsValidIndex(SecondPlayerSpawnCoordinates.Y));
+    check(Grid->Tiles[SecondPlayerSpawnCoordinates.Y].IsValidIndex(SecondPlayerSpawnCoordinates.X));
 
     return {
-        Grid->GetTileWorldLocation(FirstPlayerSpawnLocation),
-        Grid->GetTileWorldLocation(SecondPlayerSpawnLocation)
-    };
+        FirstPlayerSpawnCoordinates,
+        SecondPlayerSpawnCoordinates};
 }
-

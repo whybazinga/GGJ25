@@ -1,9 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
+#include "GGJ_DeathsTracker.h"
+
 #include "GGJ25/GeneralTypes.h"
 
-#include "GGJ_DeathsTracker.h"
 #include "GGJ_GridComponent.h"
 
 
@@ -61,5 +62,3 @@ void UGGJ_DeathsTracker::OnGridPlayerLocationSet(const EPlayer MovedPlayer)
         }
     }
 }
-
-

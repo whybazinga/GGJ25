@@ -38,6 +38,7 @@ class GGJ25_API AGGJ_Grid : public AActor
     GENERATED_BODY()
 
 public:
+
     FVector2d Size;
 
     FVector GridLocationOffset;

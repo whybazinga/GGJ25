@@ -10,7 +10,8 @@
 #include "GGJ_GridComponent.h"
 
 
-UGGJ_PlayerPiecesSpawner::UGGJ_PlayerPiecesSpawner() : Super(FObjectInitializer::Get())
+UGGJ_PlayerPiecesSpawner::UGGJ_PlayerPiecesSpawner()
+    : Super(FObjectInitializer::Get())
 {
 }
 
@@ -28,25 +29,35 @@ void UGGJ_PlayerPiecesSpawner::OnGridReady()
 {
     CachedGridComponent->OnGridReady.RemoveAll(this);
 
-    const auto PlayersSpawnLocations = GetPlayersSpawnLocations();
+    const auto PlayersSpawnCoordinates = GetPlayersSpawnCoordinates();
 
-    // Player 1
-    const FTransform FirstPlayerSpawnTransform = FTransform(PlayersSpawnLocations.Key);
+    // =============== Player 1 ===============
+    CachedGridComponent->SetPlayerLocation(PlayersSpawnCoordinates.Key, EPlayer::One, false);
+
+    const FVector FirstPlayerWorldLocation = CachedGridComponent->GetPlayerWorldLocation(EPlayer::One).GetValue();
+
+    const FTransform FirstPlayerSpawnTransform = FTransform(FirstPlayerWorldLocation);
 
     APieceActor* FirstPlayerPiece = GetWorld()->SpawnActorDeferred<APieceActor>(
         PlayerPieceActorClass,
         FTransform::Identity);
     FirstPlayerPiece->FinishSpawning(FirstPlayerSpawnTransform);
 
-    // Player 2
-    const FTransform SecondPlayerSpawnTransform = FTransform(PlayersSpawnLocations.Value);
+
+    // =============== Player 2 ===============
+    CachedGridComponent->SetPlayerLocation(PlayersSpawnCoordinates.Key, EPlayer::Two, false);
+
+    const FVector SecondPlayerWorldLocation = CachedGridComponent->GetPlayerWorldLocation(EPlayer::Two).GetValue();
+
+    const FTransform SecondPlayerSpawnTransform = FTransform(SecondPlayerWorldLocation);
 
     APieceActor* SecondPlayerPiece = GetWorld()->SpawnActorDeferred<APieceActor>(
         PlayerPieceActorClass,
         FTransform::Identity);
     SecondPlayerPiece->FinishSpawning(SecondPlayerSpawnTransform);
 
-    // Set them to PC
+
+    // =============== Set them to PC ===============
     AGGJ_PlayerController* PlayerController = Cast<AGGJ_PlayerController>(GetWorld()->GetFirstPlayerController());
     check(PlayerController);
 
@@ -55,10 +66,9 @@ void UGGJ_PlayerPiecesSpawner::OnGridReady()
     PlayerController->GetOnPiecesSet().Broadcast();
 }
 
-TPair<FVector, FVector> UGGJ_PlayerPiecesSpawner::GetPlayersSpawnLocations() const
+TPair<FIntVector2, FIntVector2> UGGJ_PlayerPiecesSpawner::GetPlayersSpawnCoordinates() const
 {
     check(CachedGridComponent.IsValid());
 
-    return CachedGridComponent->GetPlayersSpawnLocations();
+    return CachedGridComponent->GetPlayersSpawnCoordinates();
 }
-

@@ -28,13 +28,12 @@ protected:
 
     void OnGridReady();
 
-    TPair<FVector, FVector> GetPlayersSpawnLocations() const;
-
 protected:
+
+    TPair<FIntVector2, FIntVector2> GetPlayersSpawnCoordinates() const;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TSubclassOf<APieceActor> PlayerPieceActorClass = nullptr;
 
     TWeakObjectPtr<UGGJ_GridComponent> CachedGridComponent = nullptr;
-
 };
