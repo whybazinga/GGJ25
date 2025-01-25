@@ -3,9 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GGJ25/Player/GGJ_PlayerController.h"
 #include "UObject/Object.h"
 #include "MoveDataAsset.generated.h"
+
+UENUM()
+enum class EInputSide : uint8
+{
+    Front,
+    Back,
+    Left,
+    Right
+};
 
 USTRUCT(BlueprintType)
 struct FInputPair

@@ -3,19 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
-#include "GameFramework/PlayerController.h"
-
+#include "GGJ25/Moves/MoveDataAsset.h"
 #include "GGJ_PlayerController.generated.h"
 
-UENUM()
-enum class EInputSide : uint8
-{
-    Front,
-    Back,
-    Left,
-    Right
-};
+class APieceActor;
+
 
 enum class EPlayer : bool
 {
@@ -31,13 +23,21 @@ class GGJ25_API AGGJ_PlayerController : public APlayerController
 {
     GENERATED_BODY()
 
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnMoveStarted, AActor*, Actor, FCoordinates, Coordinates);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnMoveFinished, AActor*, Actor, FCoordinates, Coordinates);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCooldownFinished);
+    
     using TInputBuffer = TPair<TOptional<EInputSide>, TOptional<EInputSide>>; 
 public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    AActor* PawnOne;
+    APieceActor* PawnOne;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    AActor* PawnTwo;
+    APieceActor* PawnTwo;
+
+    FOnMoveStarted& GetOnMoveStarted() { return OnMoveStarted; }
+    FOnMoveFinished& GetOnMoveFinished() { return OnMoveFinished; }
+    FOnCooldownFinished& GetOnCooldownFinished(){ return OnCooldownFinished; }
     
 protected:
     virtual void SetupInputComponent() override;
@@ -61,4 +61,8 @@ private:
 
     FString ConvertInputSideToString(EInputSide InputSide);
     TPair<FString, FString> ConvertBufferToString(const TInputBuffer& Buffer);
+
+    FOnMoveStarted OnMoveStarted;
+    FOnMoveFinished OnMoveFinished;
+    FOnCooldownFinished OnCooldownFinished;
 };
