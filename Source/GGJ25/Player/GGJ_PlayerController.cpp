@@ -124,26 +124,7 @@ void AGGJ_PlayerController::MovePawn(EPlayer PlayerEnum)
         return;
     }
 
-    TOptional<FDirectedMove> Move = Piece->GetDirectedMove(InputBuffer);
-    if(!Move.IsSet())
-    {
-        UE_LOG(LogTemp, Warning, TEXT("Move is not found: [%s]"), *Piece->GetName());
-        return;
-    }
-
-    TOptional<FIntVector2> PlayerCurrentLocation = CachedGridComponent->GetPlayerLocation(PlayerEnum);
-    if(!PlayerCurrentLocation.IsSet())
-    {
-        UE_LOG(LogTemp, Warning, TEXT("Piece %s location not found"), *Piece->GetName());
-    }
-
-    TOptional<FVector> CurrentLocation = CachedGridComponent->GetPlayerWorldLocation(PlayerEnum);
-    TArray<FVector> MovePoints = CachedGridComponent->GetAppliedMoveStepsWorldLocations(PlayerCurrentLocation.GetValue(), Move.GetValue().Steps);
-    UGGJ_PieceMovementComponent* MovementComponent = Piece->GetComponentByClass<UGGJ_PieceMovementComponent>();
-    TArray<FVector> Path;
-    Path.Add(CurrentLocation.GetValue());
-    Path.Append(MovePoints);
-    MovementComponent->SetMovementStart(Path);
+    Piece->Move(InputBuffer);
 }
 
 void AGGJ_PlayerController::FlushBuffer(TInputBuffer& BufferToFlush)

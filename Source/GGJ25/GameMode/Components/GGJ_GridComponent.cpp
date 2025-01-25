@@ -87,19 +87,24 @@ void UGGJ_GridComponent::SetPlayerLocation(const FIntVector2 NewLocation, const 
     }
 }
 
-TArray<FVector> UGGJ_GridComponent::GetAppliedMoveStepsWorldLocations(const FIntVector2 SourceLocation, TArray<FCoordinates> Steps) const
+TArray<FIntVector2> UGGJ_GridComponent::GetAppliedMoveStepsLocations(const FIntVector2 SourceLocation, TArray<FCoordinates> Steps)
 {
-    TArray<FVector> OutStepsLocations;
+    TArray<FIntVector2> OutStepsLocations;
 
     FIntVector2 CurrentLocation = SourceLocation;
     for (const FCoordinates& Step : Steps)
     {
         CurrentLocation.X += Step.X;
         CurrentLocation.Y += Step.Y;
-        OutStepsLocations.Add(Grid->GetTileWorldLocation(CurrentLocation));
+        OutStepsLocations.Add(CurrentLocation);
     }
 
     return OutStepsLocations;
+}
+
+FVector UGGJ_GridComponent::GetTileWorldLocation(const FIntVector2 Coordinates) const
+{
+    return Grid->GetTileWorldLocation(Coordinates);
 }
 
 bool UGGJ_GridComponent::IsValidGridLocation(const FIntVector2& Location) const

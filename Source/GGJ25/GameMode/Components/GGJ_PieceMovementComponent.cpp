@@ -4,9 +4,17 @@
 #include "GGJ_PieceMovementComponent.h"
 
 #include "GGJ25/Player/GGJ_PlayerController.h"
-#include "GGJ25/Player/PieceActor.h"
 
-UGGJ_PieceMovementComponent::UGGJ_PieceMovementComponent(): ElapsedTime(0)
+FMoveState FMoveState::Initial()
+{
+    FMoveState MoveState;
+    MoveState.ElapsedTime = 0;
+    MoveState.StepIdx = 0;
+
+    return MoveState;
+}
+
+UGGJ_PieceMovementComponent::UGGJ_PieceMovementComponent()
 {
     PrimaryComponentTick.bCanEverTick = true;
 }
@@ -15,48 +23,67 @@ void UGGJ_PieceMovementComponent::BeginPlay()
 {
     Super::BeginPlay();
 
-    APieceActor* PieceActor = Cast<APieceActor>(GetOwner());
-    check(PieceActor)
-
-    AController* Controller = PieceActor->GetInstigatorController();
-    if(!Controller)
-    {
-        return;
-    }
-
-    PieceController = Cast<AGGJ_PlayerController>(Controller);
+    CachedPlayerController = Cast<AGGJ_PlayerController>(GetWorld()->GetFirstPlayerController());
 }
 
 void UGGJ_PieceMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
     Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-    APieceActor* PieceActor = Cast<APieceActor>(GetOwner());
-    check(PieceActor)
-    
-    if(ElapsedTime < PieceActor->MovementTime && !Path.IsEmpty() && Path.IsValidIndex(CurrenStepIdx + 1))
+    if (!CurrentMoveRequest.IsSet() || !CurrentMoveState.IsSet())
     {
-        float Progress = ElapsedTime / PieceActor->MovementTime;
-        FVector StartingLocation = Path[CurrenStepIdx];
-        FVector NewLocation = FMath::Lerp(StartingLocation, Path[CurrenStepIdx + 1], Progress);
-        PieceActor->SetActorLocation(NewLocation);
-        ElapsedTime += DeltaTime;
+        return;
     }
-    else
-    {
-        CurrenStepIdx++;
-        ElapsedTime = 0.f;
 
-        if(!Path.IsValidIndex(CurrenStepIdx + 1))
-        {
-            //PieceController->GetOnMoveFinished().Broadcast(PieceActor, )
-        }
+    const bool HasReachedFinalStep = CurrentMoveState->StepIdx >= CurrentMoveRequest->Path.Num() - 1;
+    if (HasReachedFinalStep)
+    {
+        OnMoveFinished.Broadcast();
+        Reset();
+        return;
     }
+
+    const bool HasDurationElapsed = CurrentMoveState->ElapsedTime >= CurrentMoveRequest->Duration;
+    if (HasDurationElapsed)
+    {
+        CurrentMoveState->ElapsedTime = 0;
+        CurrentMoveState->StepIdx++;
+        return;
+    }
+
+    const float Progress = CurrentMoveState->ElapsedTime / CurrentMoveRequest->Duration;
+
+    const FVector StepStartLocation = CurrentMoveRequest->Path[CurrentMoveState->StepIdx];
+    const FVector StepFinishLocation = CurrentMoveRequest->Path[CurrentMoveState->StepIdx + 1];
+
+    const FVector NewInterpolatedLocation = FMath::Lerp(StepStartLocation, StepFinishLocation, Progress);
+    GetOwner()->SetActorLocation(NewInterpolatedLocation);
+
+    CurrentMoveState->ElapsedTime += DeltaTime;
 }
 
-void UGGJ_PieceMovementComponent::SetMovementStart(const TArray<FVector>& Steps)
+void UGGJ_PieceMovementComponent::RequestMove(const FMoveRequest& MoveRequest)
 {
-    CurrenStepIdx = 0;
-    Path = Steps;
+    if (CurrentMoveRequest.IsSet() || CurrentMoveState.IsSet())
+    {
+        ensureAlways(false);
+        return;
+    }
+
+    if (MoveRequest.Path.IsEmpty())
+    {
+        ensureAlways(false);
+        return;
+    }
+
+    CurrentMoveRequest = MoveRequest;
+    CurrentMoveState = FMoveState::Initial();
+    OnMoveStarted.Broadcast();
+}
+
+void UGGJ_PieceMovementComponent::Reset()
+{
+    CurrentMoveRequest.Reset();
+    CurrentMoveState.Reset();
 }
 

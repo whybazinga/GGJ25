@@ -3,12 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+
 #include "GGJ25/Moves/MoveDataAsset.h"
+#include "GameFramework/Actor.h"
 
 #include "PieceActor.generated.h"
 
 
+class UGGJ_GridComponent;
 class UGGJ_PieceMovementComponent;
 
 UCLASS(Blueprintable, BlueprintType)
@@ -21,6 +23,8 @@ public:
     APieceActor();
 
     TOptional<FDirectedMove> GetDirectedMove(const TPair<TOptional<EInputSide>, TOptional<EInputSide>>& Buffer) const;
+
+    void Move(const TPair<TOptional<EInputSide>, TOptional<EInputSide>>& InputBuffer);
 
 public:
 
@@ -42,4 +46,6 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TObjectPtr<UGGJ_PieceMovementComponent> MovementComponent = nullptr;
+
+    TWeakObjectPtr<UGGJ_GridComponent> CachedGridComponent = nullptr;
 };

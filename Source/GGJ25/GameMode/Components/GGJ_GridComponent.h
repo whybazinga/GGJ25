@@ -37,7 +37,9 @@ public:
 
     void SetPlayerLocation(FIntVector2 NewLocation, EPlayer Player, bool ShouldNotify = true);
 
-    TArray<FVector> GetAppliedMoveStepsWorldLocations(const FIntVector2 SourceLocation, TArray<FCoordinates> Steps) const;
+    static TArray<FIntVector2> GetAppliedMoveStepsLocations(const FIntVector2 SourceLocation, TArray<FCoordinates> Steps);
+
+    FVector GetTileWorldLocation(const FIntVector2 Coordinates) const;
 
     bool IsValidGridLocation(const FIntVector2& Location) const;
 
