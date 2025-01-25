@@ -45,7 +45,7 @@ void UGGJ_PlayerPiecesSpawner::OnGridReady()
 
 
     // =============== Player 2 ===============
-    CachedGridComponent->SetPlayerLocation(PlayersSpawnCoordinates.Key, EPlayer::Two, false);
+    CachedGridComponent->SetPlayerLocation(PlayersSpawnCoordinates.Value, EPlayer::Two, false);
 
     const FVector SecondPlayerWorldLocation = CachedGridComponent->GetPlayerWorldLocation(EPlayer::Two).GetValue();
 
