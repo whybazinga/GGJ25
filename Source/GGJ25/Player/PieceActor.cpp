@@ -53,20 +53,20 @@ TOptional<FDirectedMove> APieceActor::GetDirectedMove(const TPair<TOptional<EInp
 void APieceActor::Move(const TPair<TOptional<EInputSide>, TOptional<EInputSide>>& InputBuffer)
 {
     TOptional<FDirectedMove> Move = GetDirectedMove(InputBuffer);
-    if(!Move.IsSet())
+    if (!Move.IsSet())
     {
         UE_LOG(LogTemp, Warning, TEXT("Move is not found: [%s]"), *GetName());
         return;
     }
 
     TOptional<FIntVector2> PlayerCurrentLocation = CachedGridComponent->GetPlayerLocation(Player);
-    if(!PlayerCurrentLocation.IsSet())
+    if (!PlayerCurrentLocation.IsSet())
     {
         UE_LOG(LogTemp, Warning, TEXT("Piece %s location not found"), *GetName());
     }
 
     TArray<FIntVector2> PathCoordinatesLocations = CachedGridComponent->GetAppliedMoveStepsLocations(PlayerCurrentLocation.GetValue(), Move.GetValue().Steps);
-    
+
 
     TArray<FVector> Path;
     Path.Add(CachedGridComponent->GetPlayerWorldLocation(Player).GetValue());
@@ -76,12 +76,21 @@ void APieceActor::Move(const TPair<TOptional<EInputSide>, TOptional<EInputSide>>
         Path.Add(CachedGridComponent->GetTileWorldLocation(PathCoordinatesLocation));
     }
 
+    MovementComponent->OnMoveFinished.AddUObject(this, &ThisClass::OnMoveFinished);
+
     FMoveRequest MoveRequest;
     MoveRequest.SourceCoordinates = PlayerCurrentLocation;
     MoveRequest.DestinationCoordinates = PathCoordinatesLocations.Last();
     MoveRequest.Duration = MovementTime;
     MoveRequest.Path = Path;
     MovementComponent->RequestMove(MoveRequest);
+}
+
+void APieceActor::OnMoveFinished(FMoveRequest MoveRequest)
+{
+    MovementComponent->OnMoveFinished.RemoveAll(this);
+
+    CachedGridComponent->SetPlayerLocation(Player, MoveRequest.DestinationCoordinates.GetValue());
 }
 
 

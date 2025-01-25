@@ -35,7 +35,7 @@ public:
     TOptional<FIntVector2> GetPlayerLocation(EPlayer Player) const;
     TOptional<FVector> GetPlayerWorldLocation(EPlayer Player) const;
 
-    void SetPlayerLocation(FIntVector2 NewLocation, EPlayer Player, bool ShouldNotify = true);
+    void SetPlayerLocation(EPlayer Player, FIntVector2 NewLocation, bool ShouldNotify = true);
 
     static TArray<FIntVector2> GetAppliedMoveStepsLocations(const FIntVector2 SourceLocation, TArray<FCoordinates> Steps);
 

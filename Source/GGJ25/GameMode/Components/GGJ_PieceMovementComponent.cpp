@@ -38,7 +38,7 @@ void UGGJ_PieceMovementComponent::TickComponent(float DeltaTime, ELevelTick Tick
     const bool HasReachedFinalStep = CurrentMoveState->StepIdx >= CurrentMoveRequest->Path.Num() - 1;
     if (HasReachedFinalStep)
     {
-        OnMoveFinished.Broadcast();
+        OnMoveFinished.Broadcast(CurrentMoveRequest.GetValue());
         Reset();
         return;
     }

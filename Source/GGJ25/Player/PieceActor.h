@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 
+#include "GGJ25/GameMode/Components/GGJ_PieceMovementComponent.h"
 #include "GGJ25/Moves/MoveDataAsset.h"
 #include "GameFramework/Actor.h"
 
@@ -25,6 +26,8 @@ public:
     TOptional<FDirectedMove> GetDirectedMove(const TPair<TOptional<EInputSide>, TOptional<EInputSide>>& Buffer) const;
 
     void Move(const TPair<TOptional<EInputSide>, TOptional<EInputSide>>& InputBuffer);
+
+    void OnMoveFinished(FMoveRequest MoveRequest);
 
 public:
 

@@ -26,7 +26,7 @@ void UGGJ_PlayerPiecesSpawner::BeginPlay()
 
 APieceActor* UGGJ_PlayerPiecesSpawner::SpawnPlayer(const EPlayer Player, const FIntVector2& PieceSpawnCoordinates) const
 {
-    CachedGridComponent->SetPlayerLocation(PieceSpawnCoordinates, Player, false);
+    CachedGridComponent->SetPlayerLocation(Player, PieceSpawnCoordinates, false);
 
     const FVector PieceWorldLocation = CachedGridComponent->GetPlayerWorldLocation(Player).GetValue();
     const FTransform PieceSpawnTransform = FTransform(PieceWorldLocation);

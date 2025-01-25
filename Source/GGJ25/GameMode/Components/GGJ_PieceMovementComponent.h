@@ -39,7 +39,7 @@ public:
 
 
 DECLARE_MULTICAST_DELEGATE(FPieceMovementComponent_OnMoveStarted);
-DECLARE_MULTICAST_DELEGATE(FPieceMovementComponent_OnMoveFinished);
+DECLARE_MULTICAST_DELEGATE_OneParam(FPieceMovementComponent_OnMoveFinished, FMoveRequest);
 
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))

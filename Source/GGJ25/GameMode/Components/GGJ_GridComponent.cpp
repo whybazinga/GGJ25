@@ -65,7 +65,7 @@ TOptional<FVector> UGGJ_GridComponent::GetPlayerWorldLocation(const EPlayer Play
     return NullOpt;
 }
 
-void UGGJ_GridComponent::SetPlayerLocation(const FIntVector2 NewLocation, const EPlayer Player, const bool ShouldNotify /* = true */)
+void UGGJ_GridComponent::SetPlayerLocation(const EPlayer Player, const FIntVector2 NewLocation, const bool ShouldNotify /* = true */)
 {
     switch (Player)
     {
