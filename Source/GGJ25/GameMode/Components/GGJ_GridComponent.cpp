@@ -55,6 +55,12 @@ TPair<FVector, FVector> UGGJ_GridComponent::GetPlayersSpawnLocations() const
         SecondPlayerSpawnLocation.Y = Grid->Size.Y - 1 - FirstPlayerSpawnLocation.Y;
     }
 
+    check(Grid->Tiles.IsValidIndex(FirstPlayerSpawnLocation.Y));
+    check(Grid->Tiles[FirstPlayerSpawnLocation.Y].IsValidIndex(FirstPlayerSpawnLocation.X));
+
+    check(Grid->Tiles.IsValidIndex(SecondPlayerSpawnLocation.Y));
+    check(Grid->Tiles[SecondPlayerSpawnLocation.Y].IsValidIndex(SecondPlayerSpawnLocation.X));
+
     return {
         Grid->GetTileWorldLocation(FirstPlayerSpawnLocation.X, FirstPlayerSpawnLocation.Y),
         Grid->GetTileWorldLocation(SecondPlayerSpawnLocation.X, SecondPlayerSpawnLocation.Y)
