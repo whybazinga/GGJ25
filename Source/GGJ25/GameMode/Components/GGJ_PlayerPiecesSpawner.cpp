@@ -33,6 +33,7 @@ void UGGJ_PlayerPiecesSpawner::PlacePlayerPieceOnBoard(const EPlayer Player, con
 
     PlayerPieceActor->SetActorLocation(PieceWorldLocation);
     PlayerPieceActor->SetActorHiddenInGame(false);
+    PlayerPieceActor->HideHand(); // cause it reappears during PlayerPieceActor->SetActorHiddenInGame(false)
 
     CachedGridComponent->SetPlayerLocation(Player, Coordinates, false);
 }

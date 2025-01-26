@@ -27,7 +27,7 @@ public:
 
     void Move(const TPair<TOptional<EInputSide>, TOptional<EInputSide>>& InputBuffer);
 
-    void OnMoveFinished(FMoveRequest MoveRequest);
+    void HideHand();
 
 public:
 
@@ -43,9 +43,15 @@ public:
 protected:
     virtual void BeginPlay() override;
 
+    void OnMoveStarted();
+    void OnMoveFinished(FMoveRequest MoveRequest);
+
 protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TObjectPtr<UBillboardComponent> SpriteComponent = nullptr;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    TObjectPtr<UBillboardComponent> HandSpriteComponent = nullptr;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TObjectPtr<UGGJ_PieceMovementComponent> MovementComponent = nullptr;
