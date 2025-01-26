@@ -49,6 +49,7 @@ void UGGJ_DeathsTracker::OnGridPlayerLocationSet(const EPlayer MovedPlayer)
 
     if (!CachedGridComponent->IsValidGridLocation(MovedPlayerLocation.GetValue()))
     {
+        UpdateScore(MovedPlayer);
         OnPlayerDeath.Broadcast(MovedPlayer);
     }
     else
@@ -58,7 +59,20 @@ void UGGJ_DeathsTracker::OnGridPlayerLocationSet(const EPlayer MovedPlayer)
 
         if (MovedPlayerLocation == StandingPlayerLocation)
         {
+            UpdateScore(StandingPlayer);
             OnPlayerDeath.Broadcast(StandingPlayer);
         }
+    }
+}
+
+void UGGJ_DeathsTracker::UpdateScore(EPlayer LostPlayer)
+{
+    if(LostPlayer == EPlayer::One)
+    {
+        Score.First++;
+    }
+    else
+    {
+        Score.Second++;
     }
 }

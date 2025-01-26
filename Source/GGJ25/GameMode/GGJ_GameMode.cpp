@@ -36,6 +36,7 @@ void AGGJ_GameMode::BeginPlay()
 void AGGJ_GameMode::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
     DeathsTracker->OnPlayerDeath.RemoveAll(this);
+    GetWorld()->GetTimerManager().ClearTimer(ResetTimer);
 
     Super::EndPlay(EndPlayReason);
 }
@@ -54,6 +55,11 @@ void AGGJ_GameMode::Restart()
 void AGGJ_GameMode::End()
 {
     GetGameState<AGGJ_GameState>()->SetMovementAllowed(false);
+
+    GetWorld()->GetTimerManager().ClearTimer(ResetTimer);
+    GetWorld()->GetTimerManager().SetTimer(ResetTimer, [&]() {
+        Restart();
+    }, ResetTime, false);
 }
 
 void AGGJ_GameMode::OnPlayerDeath(EPlayer Player)

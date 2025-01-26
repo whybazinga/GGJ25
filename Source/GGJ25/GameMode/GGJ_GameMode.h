@@ -41,10 +41,16 @@ public:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TObjectPtr<UGGJ_DeathEffectsComponent> DeathEffectsComponent = nullptr;
 
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    float ResetTime;
+    
 protected:
 
     virtual void BeginPlay() override;
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
     void OnPlayerDeath(EPlayer Player);
+
+private:
+    FTimerHandle ResetTimer;
 };

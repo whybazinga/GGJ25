@@ -16,6 +16,17 @@ class UGGJ_GridComponent;
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerDeath, EPlayer);
 
+USTRUCT(BlueprintType, Blueprintable)
+struct FScore
+{
+    GENERATED_BODY()
+
+    UPROPERTY(BlueprintReadWrite)
+    int32 First;
+
+    UPROPERTY(BlueprintReadWrite)
+    int32 Second;
+};
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class GGJ25_API UGGJ_DeathsTracker : public UActorComponent
@@ -29,6 +40,9 @@ public:
 public:
     FOnPlayerDeath OnPlayerDeath;
 
+    UFUNCTION(BlueprintCallable)
+    FScore GetScore(){ return Score; }
+    
 protected:
 
     virtual void BeginPlay() override;
@@ -38,8 +52,11 @@ protected:
     void StopTracking();
 
     void OnGridPlayerLocationSet(EPlayer MovedPlayer);
-
-protected:
     
+private:
+    void UpdateScore(EPlayer LostPlayer);
+    
+protected:
+    FScore Score;
     TWeakObjectPtr<UGGJ_GridComponent> CachedGridComponent = nullptr;
 };
