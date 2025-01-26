@@ -77,6 +77,7 @@ private:
     void ProcessMovement(EInputSide InputSide, EPlayer PlayerEnum);
     void MovePawn(EPlayer PlayerEnum);
     void FlushBuffer(TInputBuffer& BufferToFlush);
+    bool IsOppositeInputSide(EInputSide BufferInputSide, EInputSide InputSide);
 
     FString ConvertInputSideToString(EInputSide InputSide);
     TPair<FString, FString> ConvertBufferToString(const TInputBuffer& Buffer);

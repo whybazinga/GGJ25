@@ -66,7 +66,6 @@ void UGGJ_PieceMovementComponent::RequestMove(const FMoveRequest& MoveRequest)
 {
     if (CurrentMoveRequest.IsSet() || CurrentMoveState.IsSet())
     {
-        ensureAlways(false);
         return;
     }
 
