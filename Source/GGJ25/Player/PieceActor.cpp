@@ -4,6 +4,7 @@
 #include "PieceActor.h"
 
 #include "Components/BillboardComponent.h"
+#include "Components/GGJ_MovePreviewComponent.h"
 #include "GGJ25/GameMode/Components/GGJ_GridComponent.h"
 #include "GGJ25/GameMode/Components/GGJ_PieceMovementComponent.h"
 #include "GGJ25/GameMode/GGJ_GameState.h"
@@ -27,6 +28,9 @@ APieceActor::APieceActor() : Super()
 void APieceActor::BeginPlay()
 {
     Super::BeginPlay();
+
+    MovePreviewComponent = GetComponentByClass<UGGJ_MovePreviewComponent>();
+    MovePreviewComponent->SetCurrentMove(MoveDataAsset);
 
     CachedGridComponent = UGGJ_GridComponent::Get(this);
     check(CachedGridComponent.IsValid());

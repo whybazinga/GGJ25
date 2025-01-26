@@ -11,6 +11,7 @@
 #include "PieceActor.generated.h"
 
 
+class UGGJ_MovePreviewComponent;
 class UGGJ_GridComponent;
 class UGGJ_PieceMovementComponent;
 
@@ -47,6 +48,7 @@ protected:
     void OnMoveFinished(FMoveRequest MoveRequest);
 
 protected:
+
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TObjectPtr<UBillboardComponent> SpriteComponent = nullptr;
 
@@ -64,6 +66,9 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TObjectPtr<UTexture2D> SecondPlayerHandTexture = nullptr;
+
+    UPROPERTY()
+    TObjectPtr<UGGJ_MovePreviewComponent> MovePreviewComponent = nullptr;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TObjectPtr<UGGJ_PieceMovementComponent> MovementComponent = nullptr;
