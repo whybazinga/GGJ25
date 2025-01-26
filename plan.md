@@ -33,8 +33,8 @@ what is left:
   - [x] destination preview during the move
   - [x] destination preview before the move
   - [] path preview before the move
-- [] 
-- [] fix input buffer bug
+- [x] fix noisy sprites
+- [x] fix input buffer bug
 - [] movesets and rotation??
 - [] bubble fog-of-war mechanics
 - [] different animations of death for out-of-bounds and kill
