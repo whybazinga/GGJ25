@@ -23,3 +23,12 @@ it-5:
 it-6:
 - start screen and game start
 - win screen and game going to start screen
+
+_______________
+what is left:
+
+- fix previews
+- fix input buffer bug
+- movesets and rotation??
+- bubble fog-of-war mechanics
+- different animations of death for out-of-bounds and kill
