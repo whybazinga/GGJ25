@@ -78,7 +78,7 @@ void UGGJ_PieceMovementComponent::RequestMove(const FMoveRequest& MoveRequest)
 
     CurrentMoveRequest = MoveRequest;
     CurrentMoveState = FMoveState::Initial();
-    OnMoveStarted.Broadcast();
+    OnMoveStarted.Broadcast(CurrentMoveRequest.GetValue());
 }
 
 void UGGJ_PieceMovementComponent::Reset()

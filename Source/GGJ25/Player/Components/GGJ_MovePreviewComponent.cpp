@@ -56,12 +56,29 @@ FPerPlayerMovePreviewData UGGJ_MovePreviewComponent::GetPlayerMovePreviewData() 
 
 void UGGJ_MovePreviewComponent::OnMoveFinished(FMoveRequest MoveRequest)
 {
-    ShowPreview(MoveRequest.DestinationCoordinates.GetValue());
+    ClearPreviews();
+    ShowPlanningPreview(MoveRequest.DestinationCoordinates.GetValue());
 }
 
+// ReSharper disable once CppPassValueParameterByConstReference
 void UGGJ_MovePreviewComponent::OnMoveStarted(FMoveRequest MoveRequest)
 {
-    HidePreview();
+    ClearPreviews();
+    ShowMovingPreview(MoveRequest);
+}
+
+void UGGJ_MovePreviewComponent::SpawnMovePreviewActor(const TSubclassOf<AGGJ_MovePreviewActor>& MovePreviewActorClass, const FVector& TileWorldLocation)
+{
+    const FTransform MovePreviewActorSpawnTransform = FTransform(
+        TileWorldLocation + GetPlayerMovePreviewData().SpawnLocationOffset);
+
+    AGGJ_MovePreviewActor* MovePreviewActor = GetWorld()->SpawnActorDeferred<AGGJ_MovePreviewActor>(
+        MovePreviewActorClass,
+        FTransform::Identity);
+
+    MovePreviewActor->FinishSpawning(MovePreviewActorSpawnTransform);
+
+    SpawnedPreviewActors.Add(MovePreviewActor);
 }
 
 void UGGJ_MovePreviewComponent::ShowDirectedMovePreview(const FIntVector2& SourceCoordinates, const FDirectedMove& DirectedMove)
@@ -90,19 +107,10 @@ void UGGJ_MovePreviewComponent::ShowDirectedMovePreview(const FIntVector2& Sourc
 
     const FVector& DestinationTileWorldLocation = DirectedMovePreviewPath.Last();
 
-    const FTransform DestinationTileMovePreviewActorSpawnTransform = FTransform(
-        DestinationTileWorldLocation + GetPlayerMovePreviewData().SpawnLocationOffset);
-
-    AGGJ_MovePreviewActor* DestinationTileMovePreviewActor = GetWorld()->SpawnActorDeferred<AGGJ_MovePreviewActor>(
-        GetPlayerMovePreviewData().DestinationTileMovePreviewActorClass,
-        FTransform::Identity);
-
-    DestinationTileMovePreviewActor->FinishSpawning(DestinationTileMovePreviewActorSpawnTransform);
-
-    SpawnedPreviewActors.Add(DestinationTileMovePreviewActor);
+    SpawnMovePreviewActor(GetPlayerMovePreviewData().DestinationTileMovePreviewActorClass, DestinationTileWorldLocation);
 }
 
-void UGGJ_MovePreviewComponent::ShowPreview(const FIntVector2& SourceCoordinates)
+void UGGJ_MovePreviewComponent::ShowPlanningPreview(const FIntVector2& SourceCoordinates)
 {
     for (const auto DirectedMove : CurrentMoveDataAsset->DirectedMoves)
     {
@@ -110,7 +118,7 @@ void UGGJ_MovePreviewComponent::ShowPreview(const FIntVector2& SourceCoordinates
     }
 }
 
-void UGGJ_MovePreviewComponent::HidePreview()
+void UGGJ_MovePreviewComponent::ClearPreviews()
 {
     for (auto SpawnedPreviewActor : SpawnedPreviewActors)
     {
@@ -122,4 +130,11 @@ void UGGJ_MovePreviewComponent::HidePreview()
     }
 
     SpawnedPreviewActors.Empty();
+}
+
+void UGGJ_MovePreviewComponent::ShowMovingPreview(const FMoveRequest& MoveRequest)
+{
+    const FVector& DestinationTileWorldLocation = CachedGridComponent->GetTileWorldLocation(MoveRequest.DestinationCoordinates.GetValue());
+
+    SpawnMovePreviewActor(GetPlayerMovePreviewData().DestinationTileMovePreviewActorClass, DestinationTileWorldLocation);
 }

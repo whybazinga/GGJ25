@@ -45,6 +45,8 @@ public:
 
     void SetCurrentMove(UMoveDataAsset* MoveDataAsset);
 
+    void ClearPreviews();
+
 protected:
 
     virtual void BeginPlay() override;
@@ -54,11 +56,13 @@ protected:
 
     void OnMoveFinished(FMoveRequest MoveRequest);
     void OnMoveStarted(FMoveRequest MoveRequest);
+    void SpawnMovePreviewActor(const TSubclassOf<AGGJ_MovePreviewActor>& MovePreviewActorClass, const FVector& TileWorldLocation);
 
     void ShowDirectedMovePreview(const FIntVector2& SourceCoordinates, const FDirectedMove& DirectedMove);
 
-    void ShowPreview(const FIntVector2& SourceCoordinates);
-    void HidePreview();
+    void ShowPlanningPreview(const FIntVector2& SourceCoordinates);
+
+    void ShowMovingPreview(const FMoveRequest& MoveRequest);
 
 protected:
 
