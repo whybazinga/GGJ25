@@ -30,6 +30,7 @@ void APieceActor::BeginPlay()
     Super::BeginPlay();
 
     MovePreviewComponent = GetComponentByClass<UGGJ_MovePreviewComponent>();
+    MovePreviewComponent->SetPlayer(Player);
     MovePreviewComponent->SetCurrentMove(MoveDataAsset);
 
     CachedGridComponent = UGGJ_GridComponent::Get(this);

@@ -10,10 +10,23 @@
 #include "GGJ_MovePreviewComponent.generated.h"
 
 
+class AGGJ_MovePreviewActor;
 struct FMoveRequest;
 class UGGJ_GridComponent;
 class UMoveDataAsset;
 class UGGJ_PieceMovementComponent;
+
+
+USTRUCT(BlueprintType)
+struct FPerPlayerMovePreviewData
+{
+    GENERATED_BODY()
+
+public:
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    TSubclassOf<AGGJ_MovePreviewActor> DestinationTileMovePreviewActorClass = nullptr;
+};
 
 
 UCLASS(ClassGroup = (Custom), Blueprintable, BlueprintType, meta = (BlueprintSpawnableComponent))
@@ -25,12 +38,16 @@ public:
 
     UGGJ_MovePreviewComponent();
 
+    void SetPlayer(EPlayer InPlayer);
+
     void SetCurrentMove(UMoveDataAsset* MoveDataAsset);
 
 protected:
 
     virtual void BeginPlay() override;
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+    FPerPlayerMovePreviewData GetPlayerMovePreviewData() const;
 
     void OnMoveFinished(FMoveRequest MoveRequest);
 
@@ -42,20 +59,23 @@ protected:
 
 protected:
 
+    EPlayer Player = EPlayer::One;
+    
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-    TObjectPtr<UMaterialInterface> DecalMaterial;
+    FVector MovePreviewActorSpawnLocationOffset = FVector::ZeroVector;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-    FVector DecalSize = FVector::ZeroVector;
+    FPerPlayerMovePreviewData FirstPlayerMovePreviewData;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-    FRotator DecalRotation = FRotator::ZeroRotator;
+    FPerPlayerMovePreviewData SecondPlayerMovePreviewData;
 
-    TArray<UDecalComponent*> SpawnedDecalComponents;
+    UPROPERTY()
+    TArray<AGGJ_MovePreviewActor*> SpawnedPreviewActors;
 
     TWeakObjectPtr<UGGJ_PieceMovementComponent> CachedPieceMovementComponent = nullptr;
 
     TWeakObjectPtr<UGGJ_GridComponent> CachedGridComponent = nullptr;
 
-    TObjectPtr<UMoveDataAsset> CurrentMoveDataAsset = nullptr;
+    TWeakObjectPtr<UMoveDataAsset> CurrentMoveDataAsset = nullptr;
 };
