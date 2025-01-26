@@ -30,6 +30,17 @@ void APieceActor::BeginPlay()
 
     CachedGridComponent = UGGJ_GridComponent::Get(this);
     check(CachedGridComponent.IsValid());
+
+    if (Player == EPlayer::One)
+    {
+        HandSpriteComponent->SetSprite(FirstPlayerHandTexture);
+        HandSpriteComponent->SetRelativeLocation(FirstPlayerHandSpriteOffset);
+    }
+    else
+    {
+        HandSpriteComponent->SetSprite(SecondPlayerHandTexture);
+        HandSpriteComponent->SetRelativeLocation(SecondPlayerHandSpriteOffset);
+    }
 }
 
 TOptional<FDirectedMove> APieceActor::GetDirectedMove(const TPair<TOptional<EInputSide>, TOptional<EInputSide>>& Buffer) const

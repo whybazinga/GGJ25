@@ -54,6 +54,18 @@ protected:
     TObjectPtr<UBillboardComponent> HandSpriteComponent = nullptr;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    FVector FirstPlayerHandSpriteOffset = FVector::ZeroVector;
+    
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    TObjectPtr<UTexture2D> FirstPlayerHandTexture = nullptr;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    FVector SecondPlayerHandSpriteOffset = FVector::ZeroVector;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    TObjectPtr<UTexture2D> SecondPlayerHandTexture = nullptr;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TObjectPtr<UGGJ_PieceMovementComponent> MovementComponent = nullptr;
 
     TWeakObjectPtr<UGGJ_GridComponent> CachedGridComponent = nullptr;
