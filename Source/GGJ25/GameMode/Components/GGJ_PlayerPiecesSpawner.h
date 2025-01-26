@@ -16,6 +16,9 @@ class UGGJ_GridComponent;
 class APieceActor;
 
 
+DECLARE_MULTICAST_DELEGATE(FOnPiecesPlacedOnBoard);
+
+
 /**
  * @brief GameMode component
  */
@@ -29,6 +32,9 @@ public:
     UGGJ_PlayerPiecesSpawner();
 
     void PlacePiecesOnBoard();
+
+public:
+    FOnPiecesPlacedOnBoard OnPiecesPlacedOnBoard;
 
 protected:
 

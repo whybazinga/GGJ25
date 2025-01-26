@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 
-#include "GGJ25/GameMode/Components/GGJ_PieceMovementComponent.h"
+#include "GGJ25/GameMode/Components/GGJ_DeathEffectActor.h"
 #include "GGJ25/Moves/MoveDataAsset.h"
 #include "GameFramework/Actor.h"
 
@@ -13,6 +13,9 @@
 #include "PieceActor.generated.h"
 
 
+struct FMoveRequest;
+class UGGJ_PlayerPiecesSpawner;
+class UGGJ_DeathsTracker;
 class UGGJ_MovePreviewComponent;
 class UGGJ_GridComponent;
 class UGGJ_PieceMovementComponent;
@@ -45,7 +48,11 @@ public:
     EPlayer Player = EPlayer::One;
 
 protected:
+
     virtual void BeginPlay() override;
+
+    void OnPiecesPlacedOnBoard();
+    void OnPlayerDeath(EPlayer InPlayer, EDeathReason DeathReason);
 
     void OnMoveStarted(FMoveRequest MoveRequest);
     void OnMoveFinished(FMoveRequest MoveRequest);
@@ -75,6 +82,10 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TObjectPtr<UGGJ_PieceMovementComponent> MovementComponent = nullptr;
+    
+    TWeakObjectPtr<UGGJ_DeathsTracker> CachedDeathsTracker = nullptr;
+    
+    TWeakObjectPtr<UGGJ_PlayerPiecesSpawner> CachedPlayerPiecesSpawner = nullptr;
 
     TWeakObjectPtr<UGGJ_GridComponent> CachedGridComponent = nullptr;
 };

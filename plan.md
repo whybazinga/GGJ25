@@ -27,15 +27,17 @@ it-6:
 _______________
 what is left:
 
-- [] fix previews
-  - [] fix previews initial showing
-  - [] fix after death preview removal
+- [x] fix previews
+  - [x] fix previews initial showing
+  - [x] fix after death preview removal
   - [x] destination preview during the move
   - [x] destination preview before the move
-  - [] path preview before the move
+  - [-] path preview before the move
 - [x] fix noisy sprites
 - [x] fix input buffer bug
-- [] movesets and rotation??
-- [] bubble fog-of-war mechanics
+- [-] movesets and rotation??
+- [-] bubble fog-of-war mechanics
+- [] bubbles
 - [x] different animations of death for out-of-bounds and kill
 - [] tooltip for controls
+- [] (?) mark players by color

@@ -6,7 +6,7 @@
 #include "GGJ25/GeneralTypes.h"
 
 #include "GGJ_GridComponent.h"
-
+UE_DISABLE_OPTIMIZATION
 
 UGGJ_DeathsTracker::UGGJ_DeathsTracker()
 {
@@ -43,6 +43,13 @@ void UGGJ_DeathsTracker::StopTracking()
     CachedGridComponent->OnGridPlayerLocationSet.RemoveAll(this);
 }
 
+void UGGJ_DeathsTracker::AnnounceDeath(const EPlayer DyingPlayer, const EDeathReason DeathReason)
+{
+    GetWorld()->GetTimerManager().SetTimerForNextTick([this, DyingPlayer, DeathReason] () {
+        OnPlayerDeath.Broadcast(DyingPlayer, DeathReason);
+    });
+}
+
 void UGGJ_DeathsTracker::OnGridPlayerLocationSet(const EPlayer MovedPlayer)
 {
     const TOptional<FIntVector2> MovedPlayerLocation = CachedGridComponent->GetPlayerLocation(MovedPlayer);
@@ -51,7 +58,7 @@ void UGGJ_DeathsTracker::OnGridPlayerLocationSet(const EPlayer MovedPlayer)
     if (!CachedGridComponent->IsValidGridLocation(MovedPlayerLocation.GetValue()))
     {
         UpdateScore(MovedPlayer);
-        OnPlayerDeath.Broadcast(MovedPlayer, EDeathReason::OutOfBounds);
+        AnnounceDeath(MovedPlayer, EDeathReason::OutOfBounds);
     }
     else
     {
@@ -61,7 +68,7 @@ void UGGJ_DeathsTracker::OnGridPlayerLocationSet(const EPlayer MovedPlayer)
         if (MovedPlayerLocation == StandingPlayerLocation)
         {
             UpdateScore(StandingPlayer);
-            OnPlayerDeath.Broadcast(StandingPlayer, EDeathReason::Kill);
+            AnnounceDeath(StandingPlayer, EDeathReason::Kill);
         }
     }
 }
@@ -70,10 +77,11 @@ void UGGJ_DeathsTracker::UpdateScore(EPlayer LostPlayer)
 {
     if(LostPlayer == EPlayer::One)
     {
-        Score.First++;
+        Score.Second++;
     }
     else
     {
-        Score.Second++;
+        Score.First++;
     }
 }
+UE_ENABLE_OPTIMIZATION

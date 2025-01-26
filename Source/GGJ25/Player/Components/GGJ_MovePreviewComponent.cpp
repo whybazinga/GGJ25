@@ -3,11 +3,9 @@
 
 #include "GGJ_MovePreviewComponent.h"
 
-#include "Components/DecalComponent.h"
 #include "GGJ25/GameMode/Components/GGJ_GridComponent.h"
 #include "GGJ25/GameMode/Components/GGJ_PieceMovementComponent.h"
 #include "GGJ25/Moves/MoveDataAsset.h"
-#include "Kismet/GameplayStatics.h"
 
 #include "GGJ_MovePreviewActor.h"
 
@@ -42,6 +40,9 @@ void UGGJ_MovePreviewComponent::BeginPlay()
 
 void UGGJ_MovePreviewComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
+    CachedPieceMovementComponent->OnMoveFinished.RemoveAll(this);
+    CachedPieceMovementComponent->OnMoveStarted.RemoveAll(this);
+
     Super::EndPlay(EndPlayReason);
 }
 

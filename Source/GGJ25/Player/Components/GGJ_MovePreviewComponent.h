@@ -10,6 +10,7 @@
 #include "GGJ_MovePreviewComponent.generated.h"
 
 
+class UGGJ_PlayerPiecesSpawner;
 class AGGJ_MovePreviewActor;
 struct FMoveRequest;
 class UGGJ_GridComponent;
@@ -45,6 +46,8 @@ public:
 
     void SetCurrentMove(UMoveDataAsset* MoveDataAsset);
 
+    void ShowPlanningPreview(const FIntVector2& SourceCoordinates);
+
     void ClearPreviews();
 
 protected:
@@ -59,8 +62,6 @@ protected:
     void SpawnMovePreviewActor(const TSubclassOf<AGGJ_MovePreviewActor>& MovePreviewActorClass, const FVector& TileWorldLocation);
 
     void ShowDirectedMovePreview(const FIntVector2& SourceCoordinates, const FDirectedMove& DirectedMove);
-
-    void ShowPlanningPreview(const FIntVector2& SourceCoordinates);
 
     void ShowMovingPreview(const FMoveRequest& MoveRequest);
 

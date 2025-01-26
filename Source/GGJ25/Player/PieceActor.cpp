@@ -6,8 +6,10 @@
 #include "Components/AudioComponent.h"
 #include "Components/BillboardComponent.h"
 #include "Components/GGJ_MovePreviewComponent.h"
+#include "GGJ25/GameMode/Components/GGJ_DeathsTracker.h"
 #include "GGJ25/GameMode/Components/GGJ_GridComponent.h"
 #include "GGJ25/GameMode/Components/GGJ_PieceMovementComponent.h"
+#include "GGJ25/GameMode/Components/GGJ_PlayerPiecesSpawner.h"
 #include "GGJ25/GameMode/GGJ_GameState.h"
 
 APieceActor::APieceActor() : Super()
@@ -40,6 +42,16 @@ void APieceActor::BeginPlay()
     CachedGridComponent = UGGJ_GridComponent::Get(this);
     check(CachedGridComponent.IsValid());
 
+    CachedPlayerPiecesSpawner = GetWorld()->GetAuthGameMode()->FindComponentByClass<UGGJ_PlayerPiecesSpawner>();
+    check(CachedPlayerPiecesSpawner.IsValid());
+
+    CachedPlayerPiecesSpawner->OnPiecesPlacedOnBoard.AddUObject(this, &ThisClass::OnPiecesPlacedOnBoard);
+
+    CachedDeathsTracker = GetWorld()->GetAuthGameMode()->FindComponentByClass<UGGJ_DeathsTracker>();
+    check(CachedDeathsTracker.IsValid());
+
+    CachedDeathsTracker->OnPlayerDeath.AddUObject(this, &ThisClass::OnPlayerDeath);
+
     if (Player == EPlayer::One)
     {
         SpriteComponent->SetSprite(FirstPlayerData.SpriteTexture);
@@ -52,6 +64,16 @@ void APieceActor::BeginPlay()
         HandSpriteComponent->SetSprite(SecondPlayerData.HandSpriteTexture);
         HandSpriteComponent->SetRelativeLocation(SecondPlayerData.HandSpriteOffset);
     }
+}
+
+void APieceActor::OnPiecesPlacedOnBoard()
+{
+    MovePreviewComponent->ShowPlanningPreview(CachedGridComponent->GetPlayerLocation(Player).GetValue());
+}
+
+void APieceActor::OnPlayerDeath(EPlayer InPlayer, EDeathReason DeathReason)
+{
+    MovePreviewComponent->ClearPreviews();
 }
 
 TOptional<FDirectedMove> APieceActor::GetDirectedMove(const TPair<TOptional<EInputSide>, TOptional<EInputSide>>& Buffer) const

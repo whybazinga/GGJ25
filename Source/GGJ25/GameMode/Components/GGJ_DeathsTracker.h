@@ -60,6 +60,7 @@ protected:
 
     void StartTracking();
     void StopTracking();
+    void AnnounceDeath(EPlayer DyingPlayer, EDeathReason DeathReason);
 
     void OnGridPlayerLocationSet(EPlayer MovedPlayer);
     

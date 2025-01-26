@@ -44,6 +44,8 @@ void UGGJ_PlayerPiecesSpawner::PlacePiecesOnBoard()
 
     PlacePlayerPieceOnBoard(EPlayer::One, PlayersSpawnCoordinates.Key);
     PlacePlayerPieceOnBoard(EPlayer::Two, PlayersSpawnCoordinates.Value);
+
+    OnPiecesPlacedOnBoard.Broadcast();
 }
 
 APieceActor* UGGJ_PlayerPiecesSpawner::SpawnPlayer(const EPlayer Player) const
