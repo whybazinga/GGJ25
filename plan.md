@@ -39,5 +39,5 @@ what is left:
 - [-] bubble fog-of-war mechanics
 - [] bubbles
 - [x] different animations of death for out-of-bounds and kill
-- [] tooltip for controls
-- [] (?) mark players by color
+- [x] tooltip for controls
+- [x] (?) mark players by color
