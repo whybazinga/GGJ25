@@ -27,10 +27,13 @@ it-6:
 _______________
 what is left:
 
-- [x] fix previews
+- [] fix previews
+  - [] fix previews initial showing
+  - [] fix after death preview removal
   - [x] destination preview during the move
   - [x] destination preview before the move
   - [] path preview before the move
+- [] 
 - [] fix input buffer bug
 - [] movesets and rotation??
 - [] bubble fog-of-war mechanics
