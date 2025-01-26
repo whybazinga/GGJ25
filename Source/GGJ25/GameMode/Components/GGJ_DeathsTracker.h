@@ -14,7 +14,17 @@
 class UGGJ_GridComponent;
 
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerDeath, EPlayer);
+UENUM()
+enum class EDeathReason : uint8
+{
+    None = 0,
+    OutOfBounds,
+    Kill,
+};
+
+
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnPlayerDeath, EPlayer, EDeathReason);
+
 
 USTRUCT(BlueprintType, Blueprintable)
 struct FScore

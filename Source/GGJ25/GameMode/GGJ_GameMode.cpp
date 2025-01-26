@@ -62,7 +62,7 @@ void AGGJ_GameMode::End()
     }, ResetTime, false);
 }
 
-void AGGJ_GameMode::OnPlayerDeath(EPlayer Player)
+void AGGJ_GameMode::OnPlayerDeath(EPlayer Player, EDeathReason DeathReason)
 {
     End();
 }

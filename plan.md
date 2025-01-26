@@ -37,4 +37,5 @@ what is left:
 - [x] fix input buffer bug
 - [] movesets and rotation??
 - [] bubble fog-of-war mechanics
-- [] different animations of death for out-of-bounds and kill
+- [x] different animations of death for out-of-bounds and kill
+- [] tooltip for controls
