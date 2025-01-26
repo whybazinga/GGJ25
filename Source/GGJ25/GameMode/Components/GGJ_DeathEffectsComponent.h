@@ -28,7 +28,7 @@ protected:
 
     virtual void BeginPlay() override;
 
-    void OnPlayerDeath(EPlayer Player);
+    void OnPlayerDeath(EPlayer Player, EDeathReason DeathReason);
 
 protected:
 

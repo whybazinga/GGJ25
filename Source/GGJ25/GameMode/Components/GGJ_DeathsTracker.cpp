@@ -36,6 +36,7 @@ void UGGJ_DeathsTracker::StartTracking()
     check(CachedGridComponent.IsValid());
     CachedGridComponent->OnGridPlayerLocationSet.AddUObject(this, &ThisClass::OnGridPlayerLocationSet);
 }
+
 void UGGJ_DeathsTracker::StopTracking()
 {
     check(CachedGridComponent.IsValid());
@@ -50,7 +51,7 @@ void UGGJ_DeathsTracker::OnGridPlayerLocationSet(const EPlayer MovedPlayer)
     if (!CachedGridComponent->IsValidGridLocation(MovedPlayerLocation.GetValue()))
     {
         UpdateScore(MovedPlayer);
-        OnPlayerDeath.Broadcast(MovedPlayer);
+        OnPlayerDeath.Broadcast(MovedPlayer, EDeathReason::OutOfBounds);
     }
     else
     {
@@ -60,7 +61,7 @@ void UGGJ_DeathsTracker::OnGridPlayerLocationSet(const EPlayer MovedPlayer)
         if (MovedPlayerLocation == StandingPlayerLocation)
         {
             UpdateScore(StandingPlayer);
-            OnPlayerDeath.Broadcast(StandingPlayer);
+            OnPlayerDeath.Broadcast(StandingPlayer, EDeathReason::Kill);
         }
     }
 }

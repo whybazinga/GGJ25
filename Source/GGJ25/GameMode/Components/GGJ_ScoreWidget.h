@@ -27,7 +27,7 @@ class GGJ25_API UGGJ_ScoreWidget : public UUserWidget
     class UTextBlock* ScoreSecond;
     
 private:
-    void ScoreUpdated(EPlayer Player) const;
+    void ScoreUpdated(EPlayer Player, EDeathReason DeathReason) const;
 
     TWeakObjectPtr<UGGJ_DeathsTracker> DeathsTracker;
 };

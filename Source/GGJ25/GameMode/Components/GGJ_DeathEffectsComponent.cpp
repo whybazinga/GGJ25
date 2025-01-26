@@ -29,9 +29,9 @@ void UGGJ_DeathEffectsComponent::BeginPlay()
     CachedDeathsTracker->OnPlayerDeath.AddUObject(this, &ThisClass::OnPlayerDeath);
 }
 
-void UGGJ_DeathEffectsComponent::OnPlayerDeath(const EPlayer Player)
+void UGGJ_DeathEffectsComponent::OnPlayerDeath(const EPlayer Player, const EDeathReason DeathReason)
 {
-    DeathEffectActor->Show(0.6f, CachedGridComponent->GetPlayerWorldLocation(Player).GetValue());
+    DeathEffectActor->Show(0.6f, CachedGridComponent->GetPlayerWorldLocation(Player).GetValue(), DeathReason);
     
     Cast<AGGJ_PlayerController>(GetWorld()->GetFirstPlayerController())->GetPlayerPawn(Player)->SetActorHiddenInGame(true);
 }

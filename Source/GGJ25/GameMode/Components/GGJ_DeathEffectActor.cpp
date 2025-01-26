@@ -5,6 +5,8 @@
 
 #include "Components/BillboardComponent.h"
 
+#include "GGJ_DeathsTracker.h"
+
 
 AGGJ_DeathEffectActor::AGGJ_DeathEffectActor()
 {
@@ -12,13 +14,27 @@ AGGJ_DeathEffectActor::AGGJ_DeathEffectActor()
     SpriteComponent = CreateDefaultSubobject<UBillboardComponent>("SpriteComponent");
     SpriteComponent->SetupAttachment(RootComponent);
     SpriteComponent->bHiddenInGame = false;
+
+    OutOfBoundsSpriteComponent = CreateDefaultSubobject<UBillboardComponent>("OutOfBoundsSpriteComponent");
+    OutOfBoundsSpriteComponent->SetupAttachment(RootComponent);
+    OutOfBoundsSpriteComponent->bHiddenInGame = false;
 }
 
-void AGGJ_DeathEffectActor::Show(const float Duration, const FVector& WorldLocation)
+void AGGJ_DeathEffectActor::Show(const float Duration, const FVector& WorldLocation, const EDeathReason DeathReason)
 {
     SetActorLocation(WorldLocation);
 
     SetActorHiddenInGame(false);
+    if (DeathReason == EDeathReason::Kill)
+    {
+        SpriteComponent->SetHiddenInGame(false);
+        OutOfBoundsSpriteComponent->SetHiddenInGame(true);
+    }
+    else
+    {
+        OutOfBoundsSpriteComponent->SetHiddenInGame(false);
+        SpriteComponent->SetHiddenInGame(true);
+    }
 
     GetWorld()->GetTimerManager().SetTimer(HideTimerHandle, [this] () {
         SetActorHiddenInGame(true);

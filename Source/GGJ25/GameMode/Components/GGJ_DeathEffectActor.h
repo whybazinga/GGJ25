@@ -8,6 +8,10 @@
 
 #include "GGJ_DeathEffectActor.generated.h"
 
+
+enum class EDeathReason : uint8;
+
+
 UCLASS(Blueprintable)
 class GGJ25_API AGGJ_DeathEffectActor : public AActor
 {
@@ -17,7 +21,7 @@ public:
 
     AGGJ_DeathEffectActor();
 
-    void Show(const float Duration, const FVector& WorldLocation);
+    void Show(const float Duration, const FVector& WorldLocation, const EDeathReason DeathReason);
 
 protected:
 
@@ -29,4 +33,7 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TObjectPtr<UBillboardComponent> SpriteComponent = nullptr;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    TObjectPtr<UBillboardComponent> OutOfBoundsSpriteComponent = nullptr;
 };

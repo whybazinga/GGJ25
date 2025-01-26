@@ -19,7 +19,7 @@ void UGGJ_ScoreWidget::NativeConstruct()
     DeathsTracker->OnPlayerDeath.AddUObject(this, &ThisClass::ScoreUpdated);
 }
 
-void UGGJ_ScoreWidget::ScoreUpdated(EPlayer Player) const
+void UGGJ_ScoreWidget::ScoreUpdated(EPlayer Player, EDeathReason DeathReason) const
 {
     FScore Score = DeathsTracker->GetScore();
     ScoreFirst->SetText(FText::AsNumber(Score.First));

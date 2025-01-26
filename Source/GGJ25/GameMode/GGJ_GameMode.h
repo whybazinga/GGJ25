@@ -50,7 +50,7 @@ protected:
     virtual void BeginPlay() override;
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
-    void OnPlayerDeath(EPlayer Player);
+    void OnPlayerDeath(EPlayer Player, EDeathReason DeathReason);
 
 private:
     FTimerHandle ResetTimer;
