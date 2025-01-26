@@ -33,6 +33,9 @@ protected:
 
     bool bIsMovementAllowed = false;
 
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    TObjectPtr<UAudioComponent> BackgroundMusic = nullptr;
+
     UPROPERTY()
     TObjectPtr<UGGJ_GridComponent> GridComponent = nullptr;
 };
