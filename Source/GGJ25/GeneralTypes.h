@@ -3,6 +3,13 @@
 #include "CoreMinimal.h"
 #include "GeneralTypes.generated.h"
 
+enum class EGameState : uint8
+{
+    None = 0,
+    InProgress,
+    Ended
+};
+
 USTRUCT(BlueprintType)
 struct FCoordinates
 {

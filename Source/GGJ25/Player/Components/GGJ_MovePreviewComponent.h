@@ -26,6 +26,9 @@ public:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TSubclassOf<AGGJ_MovePreviewActor> DestinationTileMovePreviewActorClass = nullptr;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    FVector SpawnLocationOffset = FVector::ZeroVector;
 };
 
 
@@ -60,9 +63,6 @@ protected:
 protected:
 
     EPlayer Player = EPlayer::One;
-    
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-    FVector MovePreviewActorSpawnLocationOffset = FVector::ZeroVector;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     FPerPlayerMovePreviewData FirstPlayerMovePreviewData;

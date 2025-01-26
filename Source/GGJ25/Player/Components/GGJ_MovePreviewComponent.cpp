@@ -89,7 +89,9 @@ void UGGJ_MovePreviewComponent::ShowDirectedMovePreview(const FIntVector2& Sourc
     // }
 
     const FVector& DestinationTileWorldLocation = DirectedMovePreviewPath.Last();
-    const FTransform DestinationTileMovePreviewActorSpawnTransform = FTransform(DestinationTileWorldLocation + MovePreviewActorSpawnLocationOffset);
+
+    const FTransform DestinationTileMovePreviewActorSpawnTransform = FTransform(
+        DestinationTileWorldLocation + GetPlayerMovePreviewData().SpawnLocationOffset);
 
     AGGJ_MovePreviewActor* DestinationTileMovePreviewActor = GetWorld()->SpawnActorDeferred<AGGJ_MovePreviewActor>(
         GetPlayerMovePreviewData().DestinationTileMovePreviewActorClass,
