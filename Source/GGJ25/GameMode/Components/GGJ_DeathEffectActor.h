@@ -36,4 +36,10 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TObjectPtr<UBillboardComponent> OutOfBoundsSpriteComponent = nullptr;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    TObjectPtr<UAudioComponent> KillAudio = nullptr;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    TObjectPtr<UAudioComponent> OutOfBoundsAudio = nullptr;
 };
