@@ -3,6 +3,7 @@
 
 #include "PieceActor.h"
 
+#include "Components/AudioComponent.h"
 #include "Components/BillboardComponent.h"
 #include "Components/GGJ_MovePreviewComponent.h"
 #include "GGJ25/GameMode/Components/GGJ_GridComponent.h"
@@ -21,6 +22,8 @@ APieceActor::APieceActor() : Super()
     HandSpriteComponent = CreateDefaultSubobject<UBillboardComponent>("HandSpriteComponent");
     HandSpriteComponent->SetupAttachment(RootComponent);
     HandSpriteComponent->bHiddenInGame = true;
+
+    MoveFinishedAudio = CreateDefaultSubobject<UAudioComponent>("MoveFinishedAudio");
 
     MovementComponent = CreateDefaultSubobject<UGGJ_PieceMovementComponent>("PieceMovementComponent");
 }
@@ -133,6 +136,8 @@ void APieceActor::OnMoveFinished(FMoveRequest MoveRequest)
 
     HandSpriteComponent->SetHiddenInGame(true);
     CachedGridComponent->SetPlayerLocation(Player, MoveRequest.DestinationCoordinates.GetValue());
+
+    MoveFinishedAudio->Play();
 }
 
 
