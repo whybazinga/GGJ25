@@ -120,7 +120,7 @@ void APieceActor::HideHand()
     HandSpriteComponent->SetHiddenInGame(true);
 }
 
-void APieceActor::OnMoveStarted()
+void APieceActor::OnMoveStarted(FMoveRequest MoveRequest)
 {
     MovementComponent->OnMoveStarted.RemoveAll(this);
 

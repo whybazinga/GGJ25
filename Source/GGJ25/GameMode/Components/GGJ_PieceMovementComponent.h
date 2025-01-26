@@ -38,7 +38,7 @@ public:
 };
 
 
-DECLARE_MULTICAST_DELEGATE(FPieceMovementComponent_OnMoveStarted);
+DECLARE_MULTICAST_DELEGATE_OneParam(FPieceMovementComponent_OnMoveStarted, FMoveRequest);
 DECLARE_MULTICAST_DELEGATE_OneParam(FPieceMovementComponent_OnMoveFinished, FMoveRequest);
 
 

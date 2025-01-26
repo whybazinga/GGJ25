@@ -47,7 +47,7 @@ public:
 protected:
     virtual void BeginPlay() override;
 
-    void OnMoveStarted();
+    void OnMoveStarted(FMoveRequest MoveRequest);
     void OnMoveFinished(FMoveRequest MoveRequest);
 
 protected:

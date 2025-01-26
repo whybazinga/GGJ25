@@ -53,8 +53,8 @@ protected:
     FPerPlayerMovePreviewData GetPlayerMovePreviewData() const;
 
     void OnMoveFinished(FMoveRequest MoveRequest);
+    void OnMoveStarted(FMoveRequest MoveRequest);
 
-    void OnMoveStarted();
     void ShowDirectedMovePreview(const FIntVector2& SourceCoordinates, const FDirectedMove& DirectedMove);
 
     void ShowPreview(const FIntVector2& SourceCoordinates);

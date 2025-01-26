@@ -59,7 +59,7 @@ void UGGJ_MovePreviewComponent::OnMoveFinished(FMoveRequest MoveRequest)
     ShowPreview(MoveRequest.DestinationCoordinates.GetValue());
 }
 
-void UGGJ_MovePreviewComponent::OnMoveStarted()
+void UGGJ_MovePreviewComponent::OnMoveStarted(FMoveRequest MoveRequest)
 {
     HidePreview();
 }
