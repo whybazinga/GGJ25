@@ -2,10 +2,12 @@
 
 #include "GGJ_GameState.h"
 
+#include "Components/AudioComponent.h"
 #include "Components/GGJ_GridComponent.h"
 
 AGGJ_GameState::AGGJ_GameState() : Super()
 {
+    BackgroundMusic = CreateDefaultSubobject<UAudioComponent>("BackgroundMusic");
 }
 
 void AGGJ_GameState::BeginPlay()
@@ -13,6 +15,8 @@ void AGGJ_GameState::BeginPlay()
     Super::BeginPlay();
 
     GridComponent = GetComponentByClass<UGGJ_GridComponent>();
+
+    BackgroundMusic->Play();
 }
 
 void AGGJ_GameState::SetMovementAllowed(const bool InMovementAllowed)
