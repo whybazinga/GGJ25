@@ -54,9 +54,11 @@ APieceActor* UGGJ_PlayerPiecesSpawner::SpawnPlayer(const EPlayer Player) const
     APieceActor* PlayerPiece = GetWorld()->SpawnActorDeferred<APieceActor>(
         PlayerPieceActorClass,
         FTransform::Identity);
-    PlayerPiece->FinishSpawning(PieceSpawnTransform);
 
     PlayerPiece->Player = Player;
+
+    PlayerPiece->FinishSpawning(PieceSpawnTransform);
+
 
     return PlayerPiece;
 }
