@@ -32,6 +32,7 @@ class GGJ25_API AGGJ_PlayerController : public APlayerController
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnMoveStarted, AActor*, Actor, FCoordinates, Coordinates);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCooldownFinished);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPiecesSet);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnGameStart);
     
     using TInputBuffer = TPair<TOptional<EInputSide>, TOptional<EInputSide>>; 
 public:
@@ -44,6 +45,7 @@ public:
     FOnMoveStarted& GetOnMoveStarted() { return OnMoveStarted; }
     FOnCooldownFinished& GetOnCooldownFinished(){ return OnCooldownFinished; }
     FOnPiecesSet& GetOnPiecesSet() { return OnPiecesSet; }
+    FOnGameStart& GetOnGameStart() { return OnGameStart; }
 
     APieceActor* GetPlayerPawn(const EPlayer InPlayer) const;
     
@@ -52,7 +54,7 @@ protected:
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
     virtual void SetupInputComponent() override;
 
-    void RestartGame();
+    void StartGame();
 
     void ForwardFirst();
     void BackwardFirst();
@@ -85,6 +87,7 @@ private:
     FOnMoveStarted OnMoveStarted;
     FOnCooldownFinished OnCooldownFinished;
     FOnPiecesSet OnPiecesSet;
+    FOnGameStart OnGameStart;
 
     TWeakObjectPtr<UGGJ_GridComponent> CachedGridComponent = nullptr;
 };

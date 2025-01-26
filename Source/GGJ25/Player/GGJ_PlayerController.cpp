@@ -45,7 +45,7 @@ void AGGJ_PlayerController::SetupInputComponent()
 {
     Super::SetupInputComponent();
 
-    InputComponent->BindAction("RestartGame", IE_Pressed, this, &ThisClass::RestartGame);
+    InputComponent->BindAction("RestartGame", IE_Pressed, this, &ThisClass::StartGame);
 
     InputComponent->BindAction("ForwardFirst", IE_Pressed, this, &ThisClass::ForwardFirst);
     InputComponent->BindAction("BackwardFirst", IE_Pressed, this, &ThisClass::BackwardFirst);
@@ -58,9 +58,14 @@ void AGGJ_PlayerController::SetupInputComponent()
     InputComponent->BindAction("RightSecond", IE_Pressed, this, &ThisClass::RightSecond);
 }
 
-void AGGJ_PlayerController::RestartGame()
+void AGGJ_PlayerController::StartGame()
 {
-    Cast<AGGJ_GameMode>(GetWorld()->GetAuthGameMode())->Restart();
+    AGGJ_GameMode* GameMode = Cast<AGGJ_GameMode>(GetWorld()->GetAuthGameMode());
+    if(GameMode->IsStarted())
+    {
+        OnGameStart.Broadcast();
+        GameMode->Start();
+    }
 }
 
 APieceActor* AGGJ_PlayerController::GetPlayerPawn(const EPlayer InPlayer) const

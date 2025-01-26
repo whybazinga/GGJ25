@@ -31,6 +31,7 @@ public:
 
     void End();
 
+    bool IsStarted() const { return bGameStarted; }
 public:
     UPROPERTY()
     TObjectPtr<UGGJ_PlayerPiecesSpawner> PlayerPiecesSpawner = nullptr;
@@ -53,4 +54,5 @@ protected:
 
 private:
     FTimerHandle ResetTimer;
+    bool bGameStarted;
 };

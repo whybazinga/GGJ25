@@ -44,6 +44,7 @@ void AGGJ_GameMode::EndPlay(const EEndPlayReason::Type EndPlayReason)
 void AGGJ_GameMode::Start()
 {
     GetGameState<AGGJ_GameState>()->SetMovementAllowed(true);
+    bGameStarted = true;
 }
 
 void AGGJ_GameMode::Restart()
@@ -55,6 +56,7 @@ void AGGJ_GameMode::Restart()
 void AGGJ_GameMode::End()
 {
     GetGameState<AGGJ_GameState>()->SetMovementAllowed(false);
+    bGameStarted = false;
 
     GetWorld()->GetTimerManager().ClearTimer(ResetTimer);
     GetWorld()->GetTimerManager().SetTimer(ResetTimer, [&]() {
