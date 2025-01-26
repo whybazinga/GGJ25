@@ -140,7 +140,7 @@ void AGGJ_PlayerController::ProcessMovement(EInputSide InputSide, EPlayer Player
 {
     auto UpdateBufferInternal = [this](TInputBuffer& BufferToUpdate, EInputSide InputSide)
     {
-        if(!BufferToUpdate.Key.IsSet())
+        if(!BufferToUpdate.Key.IsSet() || IsOppositeInputSide(BufferToUpdate.Key.GetValue(), InputSide))
         {
             BufferToUpdate.Key = InputSide;
         }
@@ -148,10 +148,10 @@ void AGGJ_PlayerController::ProcessMovement(EInputSide InputSide, EPlayer Player
         {
             BufferToUpdate.Value = InputSide;
         }
-        else //TODO: delete this section, it is just for flush test
-        {
-            FlushBuffer(BufferToUpdate);
-        }
+        // else //TODO: delete this section, it is just for flush test
+        // {
+        //     FlushBuffer(BufferToUpdate);
+        // }
     };
     
     if(PlayerEnum == EPlayer::One)
@@ -196,6 +196,35 @@ void AGGJ_PlayerController::FlushBuffer(TInputBuffer& BufferToFlush)
 {
     BufferToFlush.Key.Reset();
     BufferToFlush.Value.Reset();
+}
+
+bool AGGJ_PlayerController::IsOppositeInputSide(EInputSide BufferInputSide, EInputSide InputSide)
+{
+    if(BufferInputSide == InputSide)
+    {
+        return true;
+    }
+    
+    if((BufferInputSide == EInputSide::Front) && (InputSide == EInputSide::Back))
+    {
+        return true;
+    }
+
+    if((BufferInputSide == EInputSide::Back) && (InputSide == EInputSide::Front))
+    {
+        return true;
+    }
+
+    if((BufferInputSide == EInputSide::Left) && (InputSide == EInputSide::Right))
+    {
+        return true;
+    }
+
+    if((BufferInputSide == EInputSide::Right) && (InputSide == EInputSide::Left))
+    {
+        return true;
+    }
+    return false;
 }
 
 FString AGGJ_PlayerController::ConvertInputSideToString(EInputSide InputSide)
