@@ -23,6 +23,7 @@ APieceActor::APieceActor() : Super()
     HandSpriteComponent->SetupAttachment(RootComponent);
     HandSpriteComponent->bHiddenInGame = true;
 
+    MoveAudio = CreateDefaultSubobject<UAudioComponent>("MoveAudio");
     MoveFinishedAudio = CreateDefaultSubobject<UAudioComponent>("MoveFinishedAudio");
 
     MovementComponent = CreateDefaultSubobject<UGGJ_PieceMovementComponent>("PieceMovementComponent");
@@ -128,6 +129,7 @@ void APieceActor::OnMoveStarted(FMoveRequest MoveRequest)
     MovementComponent->OnMoveStarted.RemoveAll(this);
 
     HandSpriteComponent->SetHiddenInGame(false);
+    MoveAudio->Play();
 }
 
 void APieceActor::OnMoveFinished(FMoveRequest MoveRequest)

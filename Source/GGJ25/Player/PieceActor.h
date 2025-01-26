@@ -59,6 +59,9 @@ protected:
     TObjectPtr<UBillboardComponent> HandSpriteComponent = nullptr;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    TObjectPtr<UAudioComponent> MoveAudio = nullptr;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TObjectPtr<UAudioComponent> MoveFinishedAudio = nullptr;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
