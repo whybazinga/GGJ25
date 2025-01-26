@@ -37,13 +37,15 @@ void APieceActor::BeginPlay()
 
     if (Player == EPlayer::One)
     {
-        HandSpriteComponent->SetSprite(FirstPlayerHandTexture);
-        HandSpriteComponent->SetRelativeLocation(FirstPlayerHandSpriteOffset);
+        SpriteComponent->SetSprite(FirstPlayerData.SpriteTexture);
+        HandSpriteComponent->SetSprite(FirstPlayerData.HandSpriteTexture);
+        HandSpriteComponent->SetRelativeLocation(FirstPlayerData.HandSpriteOffset);
     }
     else
     {
-        HandSpriteComponent->SetSprite(SecondPlayerHandTexture);
-        HandSpriteComponent->SetRelativeLocation(SecondPlayerHandSpriteOffset);
+        SpriteComponent->SetSprite(SecondPlayerData.SpriteTexture);
+        HandSpriteComponent->SetSprite(SecondPlayerData.HandSpriteTexture);
+        HandSpriteComponent->SetRelativeLocation(SecondPlayerData.HandSpriteOffset);
     }
 }
 

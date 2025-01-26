@@ -8,12 +8,15 @@
 #include "GGJ25/Moves/MoveDataAsset.h"
 #include "GameFramework/Actor.h"
 
+#include "GGJ_PlayerPieceData.h"
+
 #include "PieceActor.generated.h"
 
 
 class UGGJ_MovePreviewComponent;
 class UGGJ_GridComponent;
 class UGGJ_PieceMovementComponent;
+
 
 UCLASS(Blueprintable, BlueprintType)
 class GGJ25_API APieceActor : public AActor
@@ -56,16 +59,10 @@ protected:
     TObjectPtr<UBillboardComponent> HandSpriteComponent = nullptr;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-    FVector FirstPlayerHandSpriteOffset = FVector::ZeroVector;
-    
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-    TObjectPtr<UTexture2D> FirstPlayerHandTexture = nullptr;
+    FPerPlayerPieceData FirstPlayerData;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-    FVector SecondPlayerHandSpriteOffset = FVector::ZeroVector;
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-    TObjectPtr<UTexture2D> SecondPlayerHandTexture = nullptr;
+    FPerPlayerPieceData SecondPlayerData;
 
     UPROPERTY()
     TObjectPtr<UGGJ_MovePreviewComponent> MovePreviewComponent = nullptr;
